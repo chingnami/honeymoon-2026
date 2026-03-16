@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💕 Johnny & 太太的蜜月行程</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --rose: #e8a0b0;
+    --deep-rose: #c0607a;
+    --blush: #f9e8ed;
+    --gold: #d4a853;
+    --cream: #fdf6f0;
+    --text: #4a3040;
+    --shadow: rgba(192,96,122,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(135deg, #fdf6f0 0%, #f9e8ed 50%, #fdf6f0 100%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #c0607a, #e8a0b0, #d4a853);
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '🌸 ✈️ 🗾 ✈️ 🌸';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    opacity: 0.6;
+    letter-spacing: 10px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2em;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    margin-top: 20px;
+  }
+  header p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1em;
+    margin-top: 8px;
+    letter-spacing: 2px;
+  }
+  .heart-divider {
+    font-size: 24px;
+    margin: 10px 0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* Main */
+  main { max-width: 900px; margin: 0 auto; padding: 30px 15px 60px; }
+
+  /* Summary Cards */
+  .summary-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .summary-card {
+    flex: 1;
+    min-width: 130px;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 16px var(--shadow);
+    border-top: 3px solid var(--rose);
+  }
+  .summary-card .icon { font-size: 28px; }
+  .summary-card .label { font-size: 0.75em; color: #999; margin-top: 4px; }
+  .summary-card .value { font-size: 1.1em; font-weight: 700; color: var(--deep-rose); }
+
+  /* Day Cards */
+  .day-card {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 24px var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .day-card:hover { transform: translateY(-2px); }
+
+  .day-header {
+    background: linear-gradient(90deg, var(--deep-rose), var(--rose));
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .day-header .date-info { display: flex; align-items: center; gap: 12px; }
+  .day-number {
+    background: rgba(255,255,255,0.25);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1em;
+  }
+  .day-title { color: white; }
+  .day-title .date { font-family: 'Playfair Display', serif; font-size: 1.1em; }
+  .day-title .location { font-size: 0.8em; opacity: 0.9; }
+  .day-toggle { color: white; font-size: 1.2em; transition: transform 0.3s; }
+  .day-card.collapsed .day-toggle { transform: rotate(-90deg); }
+
+  .day-body { padding: 20px; }
+  .day-card.collapsed .day-body { display: none; }
+
+  /* Activity Items */
+  .activity {
+    background: var(--blush);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    position: relative;
+    border-left: 4px solid var(--rose);
+  }
+  .activity-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .activity-content { flex: 1; }
+  .activity-title { font-weight: 700; font-size: 1em; color: var(--deep-rose); }
+  .activity-desc { font-size: 0.85em; color: #777; margin-top: 4px; }
+  .activity-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    cursor: pointer;
+  }
+  .link-btn:hover { opacity: 0.8; }
+  .link-gmap { background: #4285f4; color: white; }
+  .link-tabelog { background: #e84d2a; color: white; }
+  .link-web { background: var(--gold); color: white; }
+  .link-custom { background: #6c757d; color: white; }
+
+  .activity-actions { display: flex; gap: 6px; }
+  .btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .btn-icon:hover { background: rgba(0,0,0,0.08); }
+
+  .hotel-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--gold), #e8c97a);
+    color: white;
+    font-size: 0.75em;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
+
+  /* Add Activity Form */
+  .add-activity-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--blush);
+    border: 2px dashed var(--rose);
+    border-radius: 12px;
+    color: var(--deep-rose);
+    font-size: 0.9em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .add-activity-btn:hover { background: var(--rose); color: white; border-style: solid; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--deep-rose);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+  }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.85em; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-family: 'Lato', sans-serif;
+    color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--rose);
+  }
+  .links-builder { }
+  .link-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .link-row select { width: 120px; flex-shrink: 0; }
+  .link-row input { flex: 1; }
+  .link-row .btn-icon { flex-shrink: 0; }
+  .btn-add-link {
+    background: none;
+    border: 2px dashed var(--rose);
+    color: var(--deep-rose);
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 700;
+    margin-top: 4px;
+    width: 100%;
+  }
+  .btn-add-link:hover { background: var(--blush); }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-primary {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(90deg, var(--deep-rose), var(--rose));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-secondary {
+    flex: 1;
+    padding: 12px;
+    background: #f0f0f0;
+    color: #666;
+    border: none;
+    border-radius: 12px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Add Day */
+  .add-day-btn {
+    width: 100%;
+    padding: 16px;
+    background: white;
+    border: 2px dashed var(--rose);
+    border-radius: 20px;
+    color: var(--deep-rose);
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+  .add-day-btn:hover { background: var(--blush); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--rose);
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.6em; }
+    .summary-card { min-width: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💍 Johnny & 太太的蜜月之旅</h1>
+  <p>2026年4月7日 – 14日・東京・箱根・富士山</p>
+  <div class="heart-divider">💕</div>
+</header>
+
+<main>
+  <div class="summary-bar" id="summaryBar"></div>
+  <div id="itinerary"></div>
+  <button class="add-day-btn" onclick="openAddDayModal()">＋ 新增日程</button>
+</main>
+
+<footer>Made with 💕 for Johnny & 太太's Honeymoon 2026</footer>
+
+<!-- Activity Modal -->
+<div class="modal-overlay" id="activityModal">
+  <div class="modal">
+    <h3 id="modalTitle">新增行程</h3>
+    <div class="form-group">
+      <label>活動名稱 *</label>
+      <input type="text" id="actTitle" placeholder="e.g. 淺草和服體驗">
+    </div>
+    <div class="form-group">
+      <label>描述 / 備注</label>
+      <textarea id="actDesc" rows="2" placeholder="e.g. 早上10點預約，穿和服遊淺草寺"></textarea>
+    </div>
+    <div class="form-group">
+      <label>住宿資訊（選填）</label>
+      <input type="text" id="actHotel" placeholder="e.g. GoStay Hotel（新宿附近）">
+    </div>
+    <div class="form-group">
+      <label>快速連結</label>
+      <div class="links-builder" id="linksBuilder"></div>
+      <button class="btn-add-link" onclick="addLinkRow()">＋ 加入連結</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('activityModal')">取消</button>
+      <button class="btn-primary" onclick="saveActivity()">💾 儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Day Modal -->
+<div class="modal-overlay" id="addDayModal">
+  <div class="modal">
+    <h3>新增日程</h3>
+    <div class="form-group">
+      <label>日期 *</label>
+      <input type="date" id="newDayDate">
+    </div>
+    <div class="form-group">
+      <label>地點 / 主題 *</label>
+      <input type="text" id="newDayLocation" placeholder="e.g. 東京・澀谷">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('addDayModal')">取消</button>
+      <button class="btn-primary" onclick="saveNewDay()">➕ 新增</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3>⚠️ 確認刪除</h3>
+    <p id="confirmMsg" style="margin-bottom:20px;color:#666;">確定要刪除嗎？</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('confirmModal')">取消</button>
+      <button class="btn-primary" style="background:linear-gradient(90deg,#c0392b,#e74c3c)" onclick="confirmDeleteAction()">🗑️ 刪除</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WEEKDAYS = ['日','一','二','三','四','五','六'];
+
+// Initial Data
+let data = {
+  title: "Johnny & 太太的蜜月之旅",
+  days: [
+    {
+      id: 'd1', date: '2026-04-07', location: '🛬 抵達東京',
+      activities: [
+        { id: 'a1', title: '羽田機場抵達', desc: '23:40 抵達羽田機場，辦理入境手續', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
+        ]}
+      ]
+    },
+    {
+      id: 'd2', date: '2026-04-08', location: '🛍️ 新宿・購物美食',
+      activities: [
+        { id: 'a2', title: '新宿周邊探索', desc: '初步購物與美食體驗，熟悉環境', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=新宿駅' },
+          { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1304/' }
+        ]}
+      ]
+    },
+    {
+      id: 'd3', date: '2026-04-09', location: '🎢 東京迪士尼海洋',
+      activities: [
+        { id: 'a3', title: '東京迪士尼海洋（全日）', desc: '專攻機動遊戲，排週四避人潮', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'web', label: '官方網站', url: 'https://www.tokyodisneyresort.jp/tdssea/' },
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=Tokyo+DisneySea' }
+        ]}
+      ]
+    },
+    {
+      id: 'd4', date: '2026-04-10', location: '⛩️ 淺草文化體驗',
+      activities: [
+        { id: 'a4', title: '和服體驗', desc: '上午進行和服租借與體驗', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=浅草駅' }
+        ]},
+        { id: 'a5', title: '淺草寺・仲見世商店街', desc: '下午逛淺草寺及周邊', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=浅草寺' },
+          { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1311/A131102/' }
+        ]}
+      ]
+    },
+    {
+      id: 'd5', date: '2026-04-11', location: '🗻 富士山一日遊',
+      activities: [
+        { id: 'a6', title: '富士山 Klook 導覽團', desc: '全日參加 Klook 導遊團，欣賞壯麗山景', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'web', label: 'Klook', url: 'https://www.klook.com/zh-TW/activity/2058-mt-fuji-day-trip-tokyo/' },
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=富士山' }
+        ]}
+      ]
+    },
+    {
+      id: 'd6', date: '2026-04-12', location: '♨️ 箱根溫泉',
+      activities: [
+        { id: 'a7', title: '乘浪漫特快前往箱根', desc: '從新宿搭小田急 Romancecar 前往箱根', hotel: '', links: [
+          { type: 'web', label: '小田急訂票', url: 'https://www.odakyu.jp/romancecar/' },
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=箱根湯本駅' }
+        ]},
+        { id: 'a8', title: '箱根水明莊 Check-in・一泊二食', desc: '享受私人風呂，品嚐會席料理', hotel: '💕 箱根水明莊（房內私人風呂）', links: [
+          { type: 'web', label: '官方網站', url: 'https://www.suimeisou.co.jp/' },
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=箱根水明荘' }
+        ]}
+      ]
+    },
+    {
+      id: 'd7', date: '2026-04-13', location: '🛍️ 原宿・澀谷・羽田',
+      activities: [
+        { id: 'a9', title: '原宿購物', desc: '3COINS、@cosme 等最後採買', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=原宿駅' },
+          { type: 'web', label: '竹下通り', url: 'https://www.takeshita-street.com/' }
+        ]},
+        { id: 'a10', title: '澀谷 MEGA Donki 掃貨', desc: 'MEGA ドン・キホーテ 渋谷本店', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=MEGA+ドン・キホーテ+渋谷' },
+          { type: 'web', label: '網站', url: 'https://www.donki.com/' }
+        ]},
+        { id: 'a11', title: '移至羽田機場酒店 Check-in', desc: '入住 Villa Fontaine Grand Haneda Airport，可使用溫泉設施', hotel: '🛎️ Villa Fontaine Grand Haneda Airport', links: [
+          { type: 'web', label: '官方網站', url: 'https://www.hvf.jp/haneda/' },
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport' }
+        ]}
+      ]
+    },
+    {
+      id: 'd8', date: '2026-04-14', location: '✈️ 啟程返港',
+      activities: [
+        { id: 'a12', title: '06:35 羽田機場起飛返港', desc: '早班機返香港，記得提早 Check-in！', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
+        ]}
+      ]
+    }
+  ]
+};
+
+// State
+let editingDayId = null;
+let editingActId = null;
+let deleteCallback = null;
+
+function save() {
+  localStorage.setItem('honeymoon_itinerary', JSON.stringify(data));
+}
+
+function load() {
+  const saved = localStorage.getItem('honeymoon_itinerary');
+  if (saved) data = JSON.parse(saved);
+}
+
+function uid() {
+  return 'd' + Date.now() + Math.random().toString(36).substr(2,5);
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  const w = WEEKDAYS[d.getDay()];
+  return `${m}/${day}（${w}）`;
+}
+
+function getLinkClass(type) {
+  const map = { gmap: 'link-gmap', tabelog: 'link-tabelog', web: 'link-web', custom: 'link-custom' };
+  return map[type] || 'link-custom';
+}
+
+function getLinkIcon(type) {
+  const map = { gmap: '📍', tabelog: '🍽️', web: '🔗', custom: '🔗' };
+  return map[type] || '🔗';
+}
+
+function render() {
+  // Summary
+  const totalDays = data.days.length;
+  const totalActs = data.days.reduce((s, d) => s + d.activities.length, 0);
+  const hotels = data.days.filter(d => d.activities.some(a => a.hotel)).length;
+  document.getElementById('summaryBar').innerHTML = `
+    <div class="summary-card"><div class="icon">🗓️</div><div class="value">${totalDays}</div><div class="label">天</div></div>
+    <div class="summary-card"><div class="icon">📍</div><div class="value">${totalActs}</div><div class="label">個行程</div></div>
+    <div class="summary-card"><div class="icon">🏨</div><div class="value">${hotels}</div><div class="label">晚住宿</div></div>
+    <div class="summary-card"><div class="icon">💕</div><div class="value">2</div><div class="label">人同行</div></div>
+  `;
+
+  // Itinerary
+  const container = document.getElementById('itinerary');
+  container.innerHTML = data.days.map((day, di) => `
+    <div class="day-card" id="day-${day.id}">
+      <div class="day-header" onclick="toggleDay('${day.id}')">
+        <div class="date-info">
+          <div class="day-number">${di + 1}</div>
+          <div class="day-title">
+            <div class="date">${formatDate(day.date)}</div>
+            <div class="location">${day.location}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn-icon" onclick="event.stopPropagation();confirmDeleteDay('${day.id}')" title="刪除此日" style="color:rgba(255,255,255,0.8);font-size:1em">🗑️</button>
+          <div class="day-toggle">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        ${day.activities.map(act => `
+          <div class="activity" id="act-${act.id}">
+            <div class="activity-header">
+              <div class="activity-content">
+                <div class="activity-title">${act.title}</div>
+                ${act.desc ? `<div class="activity-desc">${act.desc}</div>` : ''}
+                ${act.hotel ? `<div class="hotel-tag">🏨 ${act.hotel}</div>` : ''}
+                ${act.links && act.links.length ? `
+                  <div class="activity-links">
+                    ${act.links.map(l => `
+                      <a class="link-btn ${getLinkClass(l.type)}" href="${l.url}" target="_blank">${getLinkIcon(l.type)} ${l.label}</a>
+                    `).join('')}
+                  </div>
+                ` : ''}
+              </div>
+              <div class="activity-actions">
+                <button class="btn-icon" onclick="openEditActivity('${day.id}','${act.id}')" title="編輯">✏️</button>
+                <button class="btn-icon" onclick="confirmDeleteActivity('${day.id}','${act.id}')" title="刪除">🗑️</button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+        <button class="add-activity-btn" onclick="openAddActivity('${day.id}')">＋ 新增行程項目</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleDay(dayId) {
+  const el = document.getElementById('day-' + dayId);
+  el.classList.toggle('collapsed');
+}
+
+// Activity Modal
+function openAddActivity(dayId) {
+  editingDayId = dayId;
+  editingActId = null;
+  document.getElementById('modalTitle').textContent = '新增行程項目';
+  document.getElementById('actTitle').value = '';
+  document.getElementById('actDesc').value = '';
+  document.getElementById('actHotel').value = '';
+  document.getElementById('linksBuilder').innerHTML = '';
+  openModal('activityModal');
+}
+
+function openEditActivity(dayId, actId) {
+  editingDayId = dayId;
+  editingActId = actId;
+  const day = data.days.find(d => d.id === dayId);
+  const act = day.activities.find(a => a.id === actId);
+  document.getElementById('modalTitle').textContent = '編輯行程項目';
+  document.getElementById('actTitle').value = act.title;
+  document.getElementById('actDesc').value = act.desc || '';
+  document.getElementById('actHotel').value = act.hotel || '';
+  document.getElementById('linksBuilder').innerHTML = '';
+  (act.links || []).forEach(l => addLinkRow(l.type, l.label, l.url));
+  openModal('activityModal');
+}
+
+function addLinkRow(type='gmap', label='', url='') {
+  const div = document.createElement('div');
+  div.className = 'link-row';
+  div.innerHTML = `
+    <select onchange="this.nextElementSibling.placeholder=getLinkPlaceholder(this.value)">
+      <option value="gmap" ${type==='gmap'?'selected':''}>📍 地圖</option>
+      <option value="tabelog" ${type==='tabelog'?'selected':''}>🍽️ Tabelog</option>
+      <option value="web" ${type==='web'?'selected':''}>🔗 網站</option>
+      <option value="custom" ${type==='custom'?'selected':''}>✏️ 自訂</option>
+    </select>
+    <input type="text" placeholder="連結標題" value="${label}" style="max-width:120px">
+    <input type="text" placeholder="https://..." value="${url}" style="flex:2">
+    <button class="btn-icon" onclick="this.parentElement.remove()">✕</button>
+  `;
+  document.getElementById('linksBuilder').appendChild(div);
+}
+
+function getLinkPlaceholder(type) {
+  return { gmap:'Google Maps URL', tabelog:'Tabelog URL', web:'網站 URL', custom:'URL' }[type] || 'URL';
+}
+
+function saveActivity() {
+  const title = document.getElementById('actTitle').value.trim();
+  if (!title) { alert('請輸入活動名稱'); return; }
+  const desc = document.getElementById('actDesc').value.trim();
+  const hotel = document.getElementById('actHotel').value.trim();
+  const linkRows = document.getElementById('linksBuilder').querySelectorAll('.link-row');
+  const links = [];
+  linkRows.forEach(row => {
+    const type = row.querySelector('select').value;
+    const inputs = row.querySelectorAll('input');
+    const label = inputs[0].value.trim();
+    const url = inputs[1].value.trim();
+    if (url) links.push({ type, label: label || url, url });
+  });
+
+  const day = data.days.find(d => d.id === editingDayId);
+  if (editingActId) {
+    const act = day.activities.find(a => a.id === editingActId);
+    act.title = title; act.desc = desc; act.hotel = hotel; act.links = links;
+  } else {
+    day.activities.push({ id: uid(), title, desc, hotel, links });
+  }
+  save(); render(); closeModal('activityModal');
+}
+
+// Day Modal
+function openAddDayModal() {
+  document.getElementById('newDayDate').value = '';
+  document.getElementById('newDayLocation').value = '';
+  openModal('addDayModal');
+}
+
+function saveNewDay() {
+  const date = document.getElementById('newDayDate').value;
+  const location = document.getElementById('newDayLocation').value.trim();
+  if (!date || !location) { alert('請填寫日期和地點'); return; }
+  data.days.push({ id: uid(), date, location, activities: [] });
+  data.days.sort((a, b) => a.date.localeCompare(b.date));
+  save(); render(); closeModal('addDayModal');
+}
+
+// Delete
+function confirmDeleteDay(dayId) {
+  const day = data.days.find(d => d.id === dayId);
+  document.getElementById('confirmMsg').textContent = `確定要刪除「${formatDate(day.date)} ${day.location}」整日行程？`;
+  deleteCallback = () => { data.days = data.days.filter(d => d.id !== dayId); save(); render(); };
+  openModal('confirmModal');
+}
+
+function confirmDeleteActivity(dayId, actId) {
+  const day = data.days.find(d => d.id === dayId);
+  const act = day.activities.find(a => a.id === actId);
+  document.getElementById('confirmMsg').textContent = `確定要刪除「${act.title}」？`;
+  deleteCallback = () => { day.activities = day.activities.filter(a => a.id !== actId); save(); render(); };
+  openModal('confirmModal');
+}
+
+function confirmDeleteAction() {
+  if (deleteCallback) deleteCallback();
+  deleteCallback = null;
+  closeModal('confirmModal');
+}
+
+// Modal helpers
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
+});
+
+// Init
+load();
+render();
+</script>
+</body>
+</html>
