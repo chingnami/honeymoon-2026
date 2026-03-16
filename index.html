@@ -26,70 +26,6 @@
     color: var(--text);
   }
 
-
-  /* Hotel Info Card */
-  .hotel-info-card {
-    background: linear-gradient(135deg, #fff9f0, #fff0f5);
-    border: 1px solid var(--rose);
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin: 10px 0 6px;
-  }
-  .hotel-info-card h4 {
-    font-family: 'Playfair Display', serif;
-    color: var(--deep-rose);
-    font-size: 1em;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .hotel-info-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 8px;
-    font-size: 0.85em;
-  }
-  .hotel-info-row .lbl {
-    color: #999;
-    font-size: 0.78em;
-    font-weight: 700;
-    min-width: 52px;
-    padding-top: 1px;
-    flex-shrink: 0;
-  }
-  .hotel-info-row .val {
-    color: var(--text);
-    flex: 1;
-    line-height: 1.4;
-  }
-  .copy-btn {
-    background: var(--blush);
-    border: none;
-    border-radius: 6px;
-    padding: 2px 8px;
-    font-size: 0.72em;
-    color: var(--deep-rose);
-    cursor: pointer;
-    font-weight: 700;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-  .copy-btn:hover { background: var(--rose); color: white; }
-  .copy-btn.copied { background: #27ae60; color: white; }
-  .hotel-section-title {
-    font-size: 0.7em;
-    font-weight: 700;
-    color: var(--rose);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin: 12px 0 6px;
-    padding-bottom: 4px;
-    border-bottom: 1px dashed var(--rose);
-  }
-
   /* Header */
   header {
     background: linear-gradient(135deg, #c0607a, #e8a0b0, #d4a853);
@@ -394,6 +330,39 @@
     header h1 { font-size: 1.6em; }
     .summary-card { min-width: 80px; }
   }
+
+  .hotel-info-card { background: linear-gradient(135deg,#fff9f0,#fff0f5); border:1px solid var(--rose); border-radius:14px; padding:14px 16px; margin:10px 0 6px; }
+  .day-hotel-section { border-top: 2px dashed var(--rose); margin: 8px 16px 0; padding: 12px 0 4px; }
+  .day-hotel-label { font-size: .8em; font-weight: 700; color: var(--deep-rose); margin-bottom: 4px; letter-spacing: 1px; }
+  .hotel-info-card h4 { font-family:'Playfair Display',serif; color:var(--deep-rose); font-size:1em; margin-bottom:10px; }
+  .hotel-info-row { display:flex; align-items:flex-start; gap:8px; margin-bottom:8px; font-size:.85em; }
+  .hotel-info-row .lbl { color:#999; font-size:.78em; font-weight:700; min-width:52px; padding-top:1px; flex-shrink:0; }
+  .hotel-info-row .val { color:var(--text); flex:1; line-height:1.4; }
+  .copy-btn { background:var(--blush); border:none; border-radius:6px; padding:2px 8px; font-size:.72em; color:var(--deep-rose); cursor:pointer; font-weight:700; white-space:nowrap; flex-shrink:0; transition:background .2s; }
+  .copy-btn:hover { background:var(--rose); color:white; }
+  .copy-btn.copied { background:#27ae60; color:white; }
+  .chat-fab { position:fixed; bottom:24px; right:24px; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,var(--deep-rose),var(--gold)); border:none; cursor:pointer; font-size:1.5em; box-shadow:0 4px 16px rgba(192,96,122,.4); z-index:900; display:flex; align-items:center; justify-content:center; transition:transform .2s; }
+  .chat-fab:hover { transform:scale(1.1); }
+  .chat-window { position:fixed; bottom:90px; right:24px; width:340px; max-height:500px; background:white; border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,.2); display:flex; flex-direction:column; z-index:900; overflow:hidden; transform:scale(0); transform-origin:bottom right; transition:transform .25s cubic-bezier(.34,1.56,.64,1); }
+  .chat-window.open { transform:scale(1); }
+  .chat-header { background:linear-gradient(135deg,var(--deep-rose),var(--gold)); padding:14px 16px; color:white; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .chat-header .title { font-weight:700; font-size:.95em; flex:1; }
+  .chat-header .subtitle { font-size:.72em; opacity:.85; }
+  .chat-close { background:none; border:none; color:white; font-size:1.2em; cursor:pointer; }
+  .chat-messages { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; min-height:200px; }
+  .chat-bubble { max-width:85%; padding:10px 14px; border-radius:14px; font-size:.85em; line-height:1.5; word-break:break-word; }
+  .chat-bubble.user { background:linear-gradient(135deg,var(--deep-rose),#e8a0b0); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
+  .chat-bubble.ai { background:var(--blush); color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; }
+  .chat-bubble.ai.typing { opacity:.6; font-style:italic; }
+  .chat-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid #eee; flex-shrink:0; }
+  .chat-input { flex:1; border:2px solid #eee; border-radius:12px; padding:8px 12px; font-size:.85em; font-family:'Lato',sans-serif; outline:none; resize:none; max-height:80px; }
+  .chat-input:focus { border-color:var(--rose); }
+  .chat-send { background:linear-gradient(135deg,var(--deep-rose),var(--gold)); border:none; border-radius:12px; padding:8px 14px; color:white; cursor:pointer; font-size:1em; }
+  .chat-send:disabled { opacity:.4; cursor:not-allowed; }
+  .chat-suggestions { display:flex; flex-wrap:wrap; gap:6px; padding:0 14px 10px; }
+  .chat-suggest-btn { background:var(--blush); border:1px solid var(--rose); border-radius:20px; padding:4px 10px; font-size:.75em; color:var(--deep-rose); cursor:pointer; font-family:'Lato',sans-serif; white-space:nowrap; }
+  .chat-suggest-btn:hover { background:var(--rose); color:white; }
+
 </style>
 </head>
 <body>
@@ -481,7 +450,7 @@ let data = {
     {
       id: 'd1', date: '2026-04-07', location: '🛬 抵達東京',
       activities: [
-        { id: 'a1', title: '羽田機場抵達', desc: '23:40 抵達羽田機場，辦理入境手續', hotel: '', links: [
+        { id: 'a1', title: '✈️ HKG→HND 抵達東京', desc: '🛫 航班：HK Express UO624 ｜ HKG 23:35 起飛 → HND 04:55+1 抵達（飛行4h20m）｜ 辦入境 + 行李約45分 ｜ 🚌 交通：利木津巴士或京急線去新宿（約60–80分）｜ 💤 預計抵達酒店：07:00–07:30', hotel: '', links: [
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
         ]}
       ]
@@ -489,7 +458,7 @@ let data = {
     {
       id: 'd2', date: '2026-04-08', location: '🛍️ 新宿・購物美食',
       activities: [
-        { id: 'a2', title: '新宿周邊探索', desc: '初步購物與美食體驗，熟悉環境', hotel: 'GoStay Hotel（新宿附近）', links: [
+        { id: 'a2', title: '🛍️ 新宿周邊探索', desc: '😴 起床：11:00（凌晨才抵達，好好休息！）｜ 🚪 出門：12:00 ｜ 🚶 交通：徒步，GoStay酒店在新宿附近，步行即達各景點 ｜ 推薦：新宿御苑、歌舞伎町、百貨試食', hotel: 'GoStay Hotel（新宿附近）', links: [
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=新宿駅' },
           { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1304/' }
         ]}
@@ -498,8 +467,8 @@ let data = {
     {
       id: 'd3', date: '2026-04-09', location: '🎢 東京迪士尼海洋',
       activities: [
-        { id: 'a3', title: '東京迪士尼海洋（全日）', desc: '專攻機動遊戲，排週四避人潮', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'web', label: '官方網站', url: 'https://www.tokyodisneyresort.jp/tdssea/' },
+        { id: 'a3', title: '🎢 東京迪士尼海洋（全日）', desc: '😴 起床：07:30 ｜ 🚪 出門：08:15 ｜ 🚃 交通：新宿駅→JR山手線→舞浜駅（約45分，¥570） ｜ ⏰ 建議 09:00 開園前到達排隊入場 ｜ 📍 〒279-0031 千葉県浦安市舞浜1-13 ｜ ☎️ +81-570-008-632 ｜ 🕘 約 9:00–21:00（出發前查官網確認）', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'web', label: '官方網站', url: 'https://www.tokyodisneyresort.jp/tc/tds.html' },
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=Tokyo+DisneySea' }
         ]}
       ]
@@ -507,10 +476,11 @@ let data = {
     {
       id: 'd4', date: '2026-04-10', location: '⛩️ 淺草文化體驗',
       activities: [
-        { id: 'a4', title: '和服體驗', desc: '上午進行和服租借與體驗', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=浅草駅' }
+        { id: 'a4', title: '👘 和服體驗 · 浅草愛和服 雷門店', desc: '😴 起床：07:30 ｜ 🚪 出門：08:45 ｜ 🚃 交通：新宿駅→東京メトロ丸ノ内線→銀座→銀座線→浅草駅（約35分，¥280） ｜ ⏰ 09:00 前到達（09:30 開始） ｜ 📅 預約 ID：4376443 ｜ 📍 東京都台東区雷門2-17-9 ReLink KAMINARIMON 4F ｜ 🚉 浅草駅から徒歩3分 ｜ 💴 36,300円（現地支払）｜ ⚠️ 最終返却：16:30 ｜ ✉️ info@aiwafuku.com', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'web', label: '官方網站', url: 'https://aiwafuku.com/shop/asakusa/' },
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=東京都台東区雷門2-17-9+ReLink+KAMINARIMON' }
         ]},
-        { id: 'a5', title: '淺草寺・仲見世商店街', desc: '下午逛淺草寺及周邊', hotel: '', links: [
+        { id: 'a5', title: '⛩️ 淺草寺・仲見世商店街', desc: '😴 和服返款後自由漫步 ｜ 🚶 由愛和服步行5分鐘即達淺草寺 ｜ 📍 東京都台東区浅草2-3-1 ｜ ☎️ 03-3842-0181 ｜ 🕘 本堂：4–9月 6:00–17:00 ｜ 仲見世：9:00–19:00 ｜ 境內24小時免費', hotel: '', links: [
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=浅草寺' },
           { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1311/A131102/' }
         ]}
@@ -519,16 +489,16 @@ let data = {
     {
       id: 'd5', date: '2026-04-11', location: '🗻 富士山一日遊',
       activities: [
-        { id: 'a6', title: '富士山 Klook 導覽團', desc: '全日參加 Klook 導遊團，欣賞壯麗山景', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'web', label: 'Klook', url: 'https://www.klook.com/zh-TW/activity/2058-mt-fuji-day-trip-tokyo/' },
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=富士山' }
+        { id: 'a6', title: '🗻 富士山一日遊（EASYGO 導覽團）', desc: '😴 起床：06:45 ｜ 🚪 出門：07:30 ｜ 🚶 交通：GoStay酒店步行約10分至東京MODE學園 ｜ ⏰ 集合時間：07:50–08:10（請提前15分鐘到達！） ｜ 📍 集合地：東京MODE學園（新宿） ｜ 🚌 回程：18:30 東京MODE學園解散 ｜ ⚠️ 遲到不退款，務必準時！', hotel: 'GoStay Hotel（新宿附近）', links: [
+          { type: 'web', label: 'Klook 預訂', url: 'https://s.klook.com/c/Z3OoGzYKyk' },
+          { type: 'gmap', label: '集合地 Google Map', url: 'https://maps.google.com/?q=東京モード学園+新宿' }
         ]}
       ]
     },
     {
       id: 'd6', date: '2026-04-12', location: '♨️ 箱根溫泉',
       activities: [
-        { id: 'a7', title: '乘浪漫特快前往箱根', desc: '從新宿搭小田急 Romancecar 前往箱根', hotel: '', links: [
+        { id: 'a7', title: '🚃 乘浪漫特快前往箱根', desc: '😴 起床：08:30 ｜ 🚪 出門：09:00 ｜ 🚃 交通：新宿駅→小田急ロマンスカー→箱根湯本駅（約85分，¥1,200+特急料金） ｜ 建議提前購票！', hotel: '', links: [
           { type: 'web', label: '小田急訂票', url: 'https://www.odakyu.jp/romancecar/' },
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=箱根湯本駅' }
         ]},
@@ -541,15 +511,15 @@ let data = {
     {
       id: 'd7', date: '2026-04-13', location: '🛍️ 原宿・澀谷・羽田',
       activities: [
-        { id: 'a9', title: '原宿購物', desc: '3COINS、@cosme 等最後採買', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=原宿駅' },
+        { id: 'a9', title: '🛍️ 原宿・竹下通購物', desc: '😴 起床：09:00（箱根返東京後輕鬆起床）｜ 🚪 出門：10:00 ｜ 🚃 交通：Villa Fontaine→京急線→品川→JR山手線→原宿駅（約30分）｜ 📍 東京都渋谷区神宮前1丁目 ｜ 🕘 大部分店鋪 11:00–20:00', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=竹下通り+原宿' },
           { type: 'web', label: '竹下通り', url: 'https://www.takeshita-street.com/' }
         ]},
-        { id: 'a10', title: '澀谷 MEGA Donki 掃貨', desc: 'MEGA ドン・キホーテ 渋谷本店', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=MEGA+ドン・キホーテ+渋谷' },
-          { type: 'web', label: '網站', url: 'https://www.donki.com/' }
+        { id: 'a10', title: '🛒 澀谷 MEGA Don Quijote 掃貨', desc: '🚃 交通：原宿駅→JR山手線→渋谷駅（約5分）→A2出口步行2分 ｜ 📍 〒150-0042 東京都渋谷区宇田川町28-6 ｜ ☎️ 0570-076-311 ｜ 🕘 24小時營業', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=MEGA+ドン・キホーテ+渋谷+宇田川町28-6' },
+          { type: 'web', label: '官方網站', url: 'https://www.donki.com/store/shop_detail.php?shop_id=442' }
         ]},
-        { id: 'a11', title: '移至羽田機場酒店 Check-in', desc: '入住 Villa Fontaine Grand Haneda Airport，可使用溫泉設施', hotel: '🛎️ Villa Fontaine Grand Haneda Airport', links: [
+        { id: 'a11', title: '🏨 移至羽田機場酒店 Check-in', desc: '🕔 建議 17:00–18:00 出發 ｜ 🚃 交通：渋谷駅→京急線直通or品川→羽田空港第1・2ターミナル（約40分，¥390）｜ 入住 Villa Fontaine Grand Haneda Airport，可使用溫泉設施', hotel: '🛎️ Villa Fontaine Grand Haneda Airport', links: [
           { type: 'web', label: '官方網站', url: 'https://www.hvf.jp/haneda/' },
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport' }
         ]}
@@ -558,7 +528,7 @@ let data = {
     {
       id: 'd8', date: '2026-04-14', location: '✈️ 啟程返港',
       activities: [
-        { id: 'a12', title: '06:35 羽田機場起飛返港', desc: '早班機返香港，記得提早 Check-in！', hotel: '', links: [
+        { id: 'a12', title: '✈️ HND→HKG 返港', desc: '😴 起床：04:00 ｜ 🚪 出門：不需出門，Villa Fontaine 直連航廈 ｜ ⏰ 04:30 前往 Check-in 櫃檯（提前2小時）｜ 🛫 航班：HK Express UO625 ｜ HND 06:35 起飛 → HKG 10:15 抵達（飛行4h40m）｜ ⚠️ 記得清空隨身行李液體！', hotel: '', links: [
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
         ]}
       ]
@@ -638,7 +608,6 @@ function render() {
               <div class="activity-content">
                 <div class="activity-title">${act.title}</div>
                 ${act.desc ? `<div class="activity-desc">${act.desc}</div>` : ''}
-                ${act.hotel ? hotelCard(act.hotel) : ''}
                 ${act.links && act.links.length ? `
                   <div class="activity-links">
                     ${act.links.map(l => `
@@ -654,6 +623,13 @@ function render() {
             </div>
           </div>
         `).join('')}
+        ${(function(){
+          var hotelTag = '';
+          for (var i = day.activities.length - 1; i >= 0; i--) {
+            if (day.activities[i].hotel) { hotelTag = day.activities[i].hotel; break; }
+          }
+          return hotelTag ? '<div class="day-hotel-section"><div class="day-hotel-label">🏨 今晚住宿</div>' + hotelCard(hotelTag) + '</div>' : '';
+        })()}
         <button class="add-activity-btn" onclick="openAddActivity('${day.id}')">＋ 新增行程項目</button>
       </div>
     </div>
@@ -782,22 +758,6 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
   el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
 });
 
-
-function copyText(btn, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
-  }).catch(() => {
-    // fallback
-    const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
-  });
-}
-
 const HOTELS = {
   "GoStay Hotel": {
     "name": "GO STAY HOUSE 新宿",
@@ -815,13 +775,13 @@ const HOTELS = {
     "name": "箱根水明莊",
     "icon": "♨️",
     "address": "〒250-0311 神奈川県足柄下郡箱根町湯本茶屋702",
-    "address_en": "702 Yumoto-chaya, Hakone-machi, Ashigarashimo-gun, Kanagawa 250-0311",
+    "address_en": "702 Yumoto-chaya, Hakone-machi, Kanagawa 250-0311",
     "phone": "+81-460-85-5381",
     "checkin": "14:00",
     "checkout": "11:00",
     "map": "https://maps.google.com/?q=箱根水明荘",
     "web": "https://www.jalan.net/yad378894/",
-    "note": "一泊二食・房內私人露天風呂・箱根湯本溫泉鄉"
+    "note": "一泊二食・房內私人露天風呂"
   },
   "Villa Fontaine Grand Haneda Airport": {
     "name": "Villa Fontaine Grand 羽田空港",
@@ -834,55 +794,166 @@ const HOTELS = {
     "checkout": "11:00",
     "map": "https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport",
     "web": "https://www.hvf.jp/hanedaairport-grand/",
-    "note": "直連羽田機場第3航廈 · 天然溫泉設施 · 深夜仍可步行入住"
+    "note": "直連羽田機場第3航廈・天然溫泉設施"
   }
 };
 
+function copyText(btn, text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+  }
+}
+
 function hotelCard(hotelTag) {
   if (!hotelTag) return '';
-  const key = Object.keys(HOTELS).find(k => hotelTag.includes(k));
-  if (!key) return `<div class="hotel-tag">🏨 ${hotelTag}</div>`;
-  const h = HOTELS[key];
-  return `
-    <div class="hotel-info-card">
-      <h4>${h.icon} ${h.name}</h4>
-      <div class="hotel-info-row">
-        <span class="lbl">📍 中文地址</span>
-        <span class="val">${h.address}</span>
-        <button class="copy-btn" onclick="copyText(this,'${h.address}')">📋 Copy</button>
-      </div>
-      <div class="hotel-info-row">
-        <span class="lbl">🔤 English</span>
-        <span class="val" style="color:#666">${h.address_en}</span>
-        <button class="copy-btn" onclick="copyText(this,'${h.address_en}')">📋 Copy</button>
-      </div>
-      <div class="hotel-info-row">
-        <span class="lbl">📞 電話</span>
-        <span class="val"><a href="tel:${h.phone}" style="color:var(--deep-rose)">${h.phone}</a></span>
-        <button class="copy-btn" onclick="copyText(this,'${h.phone}')">📋 Copy</button>
-      </div>
-      ${h.email ? `<div class="hotel-info-row"><span class="lbl">📧 Email</span><span class="val">${h.email}</span><button class="copy-btn" onclick="copyText(this,'${h.email}')">📋 Copy</button></div>` : ''}
-      <div class="hotel-info-row">
-        <span class="lbl">🕐 Check-in</span>
-        <span class="val">${h.checkin} ／ Check-out ${h.checkout}</span>
-      </div>
-      ${h.note ? `<div class="hotel-info-row"><span class="lbl">📝 備注</span><span class="val">${h.note}</span></div>` : ''}
-      <div class="hotel-info-row" style="gap:6px;margin-top:4px">
-        <a class="copy-btn" href="${h.map}" target="_blank" style="text-decoration:none">🗺️ 地圖</a>
-        <a class="copy-btn" href="${h.web}" target="_blank" style="text-decoration:none">🌐 官網</a>
-      </div>
-    </div>`;
+  var key = null;
+  var keys = Object.keys(HOTELS);
+  for (var i = 0; i < keys.length; i++) {
+    if (hotelTag.indexOf(keys[i]) >= 0) { key = keys[i]; break; }
+  }
+  if (!key) return '<div class="hotel-tag">\uD83C\uDFE8 ' + hotelTag + '</div>';
+  var h = HOTELS[key];
+  var s = '<div class="hotel-info-card">';
+  s += '<h4>' + h.icon + ' ' + h.name + '</h4>';
+  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCCD 中文地址</span>';
+  s += '<span class="val">' + h.address + '</span>';
+  s += '<button class="copy-btn" onclick="copyText(this,\'' + h.address.replace(/'/g, "\\'") + '\')">📋 Copy</button></div>';
+  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDD24 English</span>';
+  s += '<span class="val" style="color:#666">' + h.address_en + '</span>';
+  s += '<button class="copy-btn" onclick="copyText(this,\'' + h.address_en.replace(/'/g, "\\'") + '\')">📋 Copy</button></div>';
+  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCDE 電話</span>';
+  s += '<span class="val"><a href="tel:' + h.phone + '" style="color:var(--deep-rose)">' + h.phone + '</a></span>';
+  s += '<button class="copy-btn" onclick="copyText(this,\'' + h.phone + '\')">📋 Copy</button></div>';
+  if (h.email) {
+    s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCE7 Email</span>';
+    s += '<span class="val">' + h.email + '</span>';
+    s += '<button class="copy-btn" onclick="copyText(this,\'' + h.email + '\')">📋 Copy</button></div>';
+  }
+  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDD50 Check-in</span>';
+  s += '<span class="val">' + h.checkin + ' \uff0f Check-out ' + h.checkout + '</span></div>';
+  if (h.note) {
+    s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCDD 備注</span>';
+    s += '<span class="val">' + h.note + '</span></div>';
+  }
+  s += '<div class="hotel-info-row" style="gap:6px;margin-top:4px">';
+  s += '<a class="copy-btn" href="' + h.map + '" target="_blank" style="text-decoration:none">\uD83D\uDDFA\uFE0F 地圖</a>';
+  s += '<a class="copy-btn" href="' + h.web + '" target="_blank" style="text-decoration:none">\uD83C\uDF10 官網</a>';
+  s += '</div>';
+  s += '</div>';
+  return s;
 }
-      <div class="hotel-info-row" style="gap:6px;margin-top:4px">
-        <a class="copy-btn" href="${h.map}" target="_blank" style="text-decoration:none">🗺️ 地圖</a>
-        <a class="copy-btn" href="${h.web}" target="_blank" style="text-decoration:none">🌐 官網</a>
-        <button class="copy-btn" onclick="copyText(this,'${h.address_en}')">📋 English Addr</button>
-      </div>
-    </div>`;
+
+// ── AI Chatbot ──
+var AZURE_EP = 'https://johnnyaiproject20250729.cognitiveservices.azure.com/openai/deployments/gpt-5-nano/chat/completions?api-version=2025-01-01-preview';
+var chatHistory = [];
+var chatOpen = false;
+
+function getAzureKey() {
+  var k = localStorage.getItem('honeymoon_ai_key');
+  if (!k) {
+    k = prompt('請輸入 AI 助手 API Key（只需一次）：');
+    if (k) localStorage.setItem('honeymoon_ai_key', k.trim());
+  }
+  return k;
 }
+
+function buildSystemPrompt() {
+  var lines = data.days.map(function(d) {
+    return d.date + ' ' + d.location + ': ' + d.activities.map(function(a){
+      return a.title + (a.hotel ? '(住:' + a.hotel + ')' : '');
+    }).join(', ');
+  }).join('\n');
+  var hotels = Object.keys(HOTELS).map(function(k){
+    var h = HOTELS[k];
+    return h.name + ' TEL:' + h.phone + ' CI:' + h.checkin;
+  }).join('\n');
+  return '你係蜜月旅行助手，用廣東話回答。行程：\n' + lines + '\n\n酒店：\n' + hotels;
+}
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatWindow').classList.toggle('open', chatOpen);
+  if (chatOpen) document.getElementById('chatInput').focus();
+}
+
+function askSuggestion(btn) {
+  document.getElementById('chatInput').value = btn.textContent;
+  document.getElementById('chatSuggestions').style.display = 'none';
+  sendChat();
+}
+
+function appendBubble(role, text, typing) {
+  var msgs = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.className = 'chat-bubble ' + role + (typing ? ' typing' : '');
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function sendChat() {
+  var input = document.getElementById('chatInput');
+  var btn = document.getElementById('chatSend');
+  var text = input.value.trim();
+  if (!text) return;
+  var key = getAzureKey();
+  if (!key) return;
+  input.value = ''; input.style.height = 'auto'; btn.disabled = true;
+  appendBubble('user', text, false);
+  chatHistory.push({ role: 'user', content: text });
+  var tb = appendBubble('ai', '…', true);
+  var msgs = [{ role: 'system', content: buildSystemPrompt() }].concat(chatHistory.slice(-8));
+  fetch(AZURE_EP, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'api-key': key },
+    body: JSON.stringify({ messages: msgs, max_tokens: 400, temperature: 0.7 })
+  }).then(function(r){ return r.json(); }).then(function(j){
+    var reply = j.choices[0].message.content;
+    tb.textContent = reply; tb.classList.remove('typing');
+    chatHistory.push({ role: 'assistant', content: reply });
+  }).catch(function(){
+    tb.textContent = '唔好意思，出咗問題 😅 請再試。'; tb.classList.remove('typing');
+    chatHistory.pop();
+  }).finally(function(){ btn.disabled = false; document.getElementById('chatInput').focus(); });
+}
+
 // Init
 load();
 render();
 </script>
+
+<button class="chat-fab" onclick="toggleChat()" title="問旅行助手">💬</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div><div class="title">✨ 蜜月旅行助手</div><div class="subtitle">Ask me about your trip!</div></div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-bubble ai">你好！我係你哋嘅蜜月旅行助手 💕 有咩問題都可以問我！</div>
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="chat-suggest-btn" onclick="askSuggestion(this)">第幾天去富士山？</button>
+    <button class="chat-suggest-btn" onclick="askSuggestion(this)">酒店幾點check-in？</button>
+    <button class="chat-suggest-btn" onclick="askSuggestion(this)">箱根溫泉電話？</button>
+    <button class="chat-suggest-btn" onclick="askSuggestion(this)">迪士尼係邊天？</button>
+  </div>
+  <div class="chat-input-row">
+    <textarea class="chat-input" id="chatInput" placeholder="問問行程嘅嘢…" rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+    <button class="chat-send" id="chatSend" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
 </body>
 </html>
