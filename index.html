@@ -26,6 +26,70 @@
     color: var(--text);
   }
 
+
+  /* Hotel Info Card */
+  .hotel-info-card {
+    background: linear-gradient(135deg, #fff9f0, #fff0f5);
+    border: 1px solid var(--rose);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin: 10px 0 6px;
+  }
+  .hotel-info-card h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--deep-rose);
+    font-size: 1em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hotel-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.85em;
+  }
+  .hotel-info-row .lbl {
+    color: #999;
+    font-size: 0.78em;
+    font-weight: 700;
+    min-width: 52px;
+    padding-top: 1px;
+    flex-shrink: 0;
+  }
+  .hotel-info-row .val {
+    color: var(--text);
+    flex: 1;
+    line-height: 1.4;
+  }
+  .copy-btn {
+    background: var(--blush);
+    border: none;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.72em;
+    color: var(--deep-rose);
+    cursor: pointer;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: var(--rose); color: white; }
+  .copy-btn.copied { background: #27ae60; color: white; }
+  .hotel-section-title {
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--rose);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 12px 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--rose);
+  }
+
   /* Header */
   header {
     background: linear-gradient(135deg, #c0607a, #e8a0b0, #d4a853);
@@ -574,7 +638,7 @@ function render() {
               <div class="activity-content">
                 <div class="activity-title">${act.title}</div>
                 ${act.desc ? `<div class="activity-desc">${act.desc}</div>` : ''}
-                ${act.hotel ? `<div class="hotel-tag">🏨 ${act.hotel}</div>` : ''}
+                ${act.hotel ? hotelCard(act.hotel) : ''}
                 ${act.links && act.links.length ? `
                   <div class="activity-links">
                     ${act.links.map(l => `
@@ -718,6 +782,91 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
   el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
 });
 
+
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+const HOTELS = {
+  "GoStay Hotel": {
+    "name": "GO STAY HOUSE 新宿",
+    "icon": "🏠",
+    "address": "〒169-0072 東京都新宿区大久保2丁目7-10",
+    "address_en": "2-7-10 Okubo, Shinjuku-ku, Tokyo 169-0072",
+    "phone": "+81-3-6233-9966",
+    "checkin": "15:00",
+    "checkout": "11:00",
+    "map": "https://maps.google.com/?q=2-7-10+Okubo+Shinjuku+Tokyo",
+    "web": "https://gostayhouse.com/"
+  },
+  "箱根水明莊": {
+    "name": "箱根 水明莊",
+    "icon": "♨️",
+    "address": "〒250-0311 神奈川県足柄下郡箱根町湯本茶屋191",
+    "address_en": "191 Yumoto-chaya, Hakone-machi, Ashigarashimo-gun, Kanagawa 250-0311",
+    "phone": "+81-460-85-5561",
+    "checkin": "15:00",
+    "checkout": "11:00",
+    "map": "https://maps.google.com/?q=箱根水明荘",
+    "web": "https://www.suimeisou.co.jp/",
+    "note": "一泊二食・房內私人風呂"
+  },
+  "Villa Fontaine Grand Haneda Airport": {
+    "name": "Villa Fontaine Grand Haneda Airport",
+    "icon": "✈️",
+    "address": "〒144-0041 東京都大田区羽田空港2-7-1 羽田エアポートガーデン",
+    "address_en": "Haneda Airport Garden, 2-7-1 Haneda Airport, Ota-ku, Tokyo 144-0041",
+    "phone": "+81-3-6459-8800",
+    "checkin": "15:00",
+    "checkout": "11:00",
+    "map": "https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport",
+    "web": "https://www.hvf.jp/hanedaairport-grand/",
+    "note": "直連羽田機場第3航廈・天然溫泉設施"
+  }
+};
+
+function hotelCard(hotelTag) {
+  if (!hotelTag) return '';
+  // Match hotel key
+  const key = Object.keys(HOTELS).find(k => hotelTag.includes(k));
+  if (!key) return `<div class="hotel-tag">🏨 ${hotelTag}</div>`;
+  const h = HOTELS[key];
+  return `
+    <div class="hotel-info-card">
+      <h4>${h.icon} ${h.name}</h4>
+      <div class="hotel-info-row">
+        <span class="lbl">📍 地址</span>
+        <span class="val">${h.address}<br><span style="color:#aaa;font-size:.9em">${h.address_en}</span></span>
+        <button class="copy-btn" onclick="copyText(this,'${h.address}')">📋 Copy</button>
+      </div>
+      <div class="hotel-info-row">
+        <span class="lbl">📞 電話</span>
+        <span class="val"><a href="tel:${h.phone}" style="color:var(--deep-rose)">${h.phone}</a></span>
+        <button class="copy-btn" onclick="copyText(this,'${h.phone}')">📋 Copy</button>
+      </div>
+      <div class="hotel-info-row">
+        <span class="lbl">🕐 Check-in</span>
+        <span class="val">${h.checkin} ／ Check-out ${h.checkout}</span>
+      </div>
+      ${h.note ? `<div class="hotel-info-row"><span class="lbl">📝 備注</span><span class="val">${h.note}</span></div>` : ''}
+      <div class="hotel-info-row" style="gap:6px;margin-top:4px">
+        <a class="copy-btn" href="${h.map}" target="_blank" style="text-decoration:none">🗺️ 地圖</a>
+        <a class="copy-btn" href="${h.web}" target="_blank" style="text-decoration:none">🌐 官網</a>
+        <button class="copy-btn" onclick="copyText(this,'${h.address_en}')">📋 English Addr</button>
+      </div>
+    </div>`;
+}
 // Init
 load();
 render();
