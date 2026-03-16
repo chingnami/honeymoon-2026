@@ -808,37 +808,38 @@ const HOTELS = {
     "checkin": "15:00",
     "checkout": "11:00",
     "map": "https://maps.google.com/?q=2-7-10+Okubo+Shinjuku+Tokyo",
-    "web": "https://gostayhouse.com/"
+    "web": "https://gostayhouse.com/",
+    "note": "新宿中心地帶，步行15分鐘到新宿站"
   },
   "箱根水明莊": {
-    "name": "箱根 水明莊",
+    "name": "箱根水明莊",
     "icon": "♨️",
-    "address": "〒250-0311 神奈川県足柄下郡箱根町湯本茶屋191",
-    "address_en": "191 Yumoto-chaya, Hakone-machi, Ashigarashimo-gun, Kanagawa 250-0311",
-    "phone": "+81-460-85-5561",
-    "checkin": "15:00",
+    "address": "〒250-0311 神奈川県足柄下郡箱根町湯本茶屋702",
+    "address_en": "702 Yumoto-chaya, Hakone-machi, Ashigarashimo-gun, Kanagawa 250-0311",
+    "phone": "+81-460-85-5381",
+    "checkin": "14:00",
     "checkout": "11:00",
     "map": "https://maps.google.com/?q=箱根水明荘",
-    "web": "https://www.suimeisou.co.jp/",
-    "note": "一泊二食・房內私人風呂"
+    "web": "https://www.jalan.net/yad378894/",
+    "note": "一泊二食・房內私人露天風呂・箱根湯本溫泉鄉"
   },
   "Villa Fontaine Grand Haneda Airport": {
-    "name": "Villa Fontaine Grand Haneda Airport",
+    "name": "Villa Fontaine Grand 羽田空港",
     "icon": "✈️",
-    "address": "〒144-0041 東京都大田区羽田空港2-7-1 羽田エアポートガーデン",
-    "address_en": "Haneda Airport Garden, 2-7-1 Haneda Airport, Ota-ku, Tokyo 144-0041",
-    "phone": "+81-3-6459-8800",
+    "address": "〒144-0041 東京都大田区羽田空港2丁目7-1 羽田エアポートガーデン",
+    "address_en": "2-7-1 Hanedakuko, Ota City, Tokyo 144-0041",
+    "phone": "+81-3-6459-9770",
+    "email": "hanedaairport-grand@hvf.jp",
     "checkin": "15:00",
     "checkout": "11:00",
     "map": "https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport",
     "web": "https://www.hvf.jp/hanedaairport-grand/",
-    "note": "直連羽田機場第3航廈・天然溫泉設施"
+    "note": "直連羽田機場第3航廈 · 天然溫泉設施 · 深夜仍可步行入住"
   }
 };
 
 function hotelCard(hotelTag) {
   if (!hotelTag) return '';
-  // Match hotel key
   const key = Object.keys(HOTELS).find(k => hotelTag.includes(k));
   if (!key) return `<div class="hotel-tag">🏨 ${hotelTag}</div>`;
   const h = HOTELS[key];
@@ -855,11 +856,19 @@ function hotelCard(hotelTag) {
         <span class="val"><a href="tel:${h.phone}" style="color:var(--deep-rose)">${h.phone}</a></span>
         <button class="copy-btn" onclick="copyText(this,'${h.phone}')">📋 Copy</button>
       </div>
+      ${h.email ? `<div class="hotel-info-row"><span class="lbl">📧 Email</span><span class="val">${h.email}</span><button class="copy-btn" onclick="copyText(this,'${h.email}')">📋 Copy</button></div>` : ''}
       <div class="hotel-info-row">
         <span class="lbl">🕐 Check-in</span>
         <span class="val">${h.checkin} ／ Check-out ${h.checkout}</span>
       </div>
       ${h.note ? `<div class="hotel-info-row"><span class="lbl">📝 備注</span><span class="val">${h.note}</span></div>` : ''}
+      <div class="hotel-info-row" style="gap:6px;margin-top:4px">
+        <a class="copy-btn" href="${h.map}" target="_blank" style="text-decoration:none">🗺️ 地圖</a>
+        <a class="copy-btn" href="${h.web}" target="_blank" style="text-decoration:none">🌐 官網</a>
+        <button class="copy-btn" onclick="copyText(this,'${h.address_en}')">📋 英文地址</button>
+      </div>
+    </div>`;
+}
       <div class="hotel-info-row" style="gap:6px;margin-top:4px">
         <a class="copy-btn" href="${h.map}" target="_blank" style="text-decoration:none">🗺️ 地圖</a>
         <a class="copy-btn" href="${h.web}" target="_blank" style="text-decoration:none">🌐 官網</a>
