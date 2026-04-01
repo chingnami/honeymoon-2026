@@ -1,1069 +1,504 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-HK">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💕 Johnny & 太太的蜜月行程</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
-
-  :root {
-    --rose: #e8a0b0;
-    --deep-rose: #c0607a;
-    --blush: #f9e8ed;
-    --gold: #d4a853;
-    --cream: #fdf6f0;
-    --text: #4a3040;
-    --shadow: rgba(192,96,122,0.15);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Lato', sans-serif;
-    background: linear-gradient(135deg, #fdf6f0 0%, #f9e8ed 50%, #fdf6f0 100%);
-    min-height: 100vh;
-    color: var(--text);
-  }
-
-  /* Header */
-  header {
-    background: linear-gradient(135deg, #c0607a, #e8a0b0, #d4a853);
-    padding: 40px 20px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '🌸 ✈️ 🗾 ✈️ 🌸';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    opacity: 0.6;
-    letter-spacing: 10px;
-  }
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2em;
-    color: white;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-    margin-top: 20px;
-  }
-  header p {
-    color: rgba(255,255,255,0.9);
-    font-size: 1em;
-    margin-top: 8px;
-    letter-spacing: 2px;
-  }
-  .heart-divider {
-    font-size: 24px;
-    margin: 10px 0;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-  }
-
-  /* Main */
-  main { max-width: 900px; margin: 0 auto; padding: 30px 15px 60px; }
-
-  /* Summary Cards */
-  .summary-bar {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-  .summary-card {
-    flex: 1;
-    min-width: 130px;
-    background: white;
-    border-radius: 16px;
-    padding: 16px;
-    text-align: center;
-    box-shadow: 0 4px 16px var(--shadow);
-    border-top: 3px solid var(--rose);
-  }
-  .summary-card .icon { font-size: 28px; }
-  .summary-card .label { font-size: 0.75em; color: #999; margin-top: 4px; }
-  .summary-card .value { font-size: 1.1em; font-weight: 700; color: var(--deep-rose); }
-
-  /* Day Cards */
-  .day-card {
-    background: white;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 24px var(--shadow);
-    overflow: hidden;
-    transition: transform 0.2s;
-  }
-  .day-card:hover { transform: translateY(-2px); }
-
-  .day-header {
-    background: linear-gradient(90deg, var(--deep-rose), var(--rose));
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-  .day-header .date-info { display: flex; align-items: center; gap: 12px; }
-  .day-number {
-    background: rgba(255,255,255,0.25);
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.1em;
-  }
-  .day-title { color: white; }
-  .day-title .date { font-family: 'Playfair Display', serif; font-size: 1.1em; }
-  .day-title .location { font-size: 0.8em; opacity: 0.9; }
-  .day-toggle { color: white; font-size: 1.2em; transition: transform 0.3s; }
-  .day-card.collapsed .day-toggle { transform: rotate(-90deg); }
-
-  .day-body { padding: 20px; }
-  .day-card.collapsed .day-body { display: none; }
-
-  /* Activity Items */
-  .activity {
-    background: var(--blush);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 12px;
-    position: relative;
-    border-left: 4px solid var(--rose);
-  }
-  .activity-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .activity-content { flex: 1; }
-  .activity-title { font-weight: 700; font-size: 1em; color: var(--deep-rose); }
-  .activity-desc { font-size: 0.85em; color: #777; margin-top: 4px; }
-  .activity-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .link-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75em;
-    font-weight: 700;
-    text-decoration: none;
-    transition: opacity 0.2s;
-    cursor: pointer;
-  }
-  .link-btn:hover { opacity: 0.8; }
-  .link-gmap { background: #4285f4; color: white; }
-  .link-tabelog { background: #e84d2a; color: white; }
-  .link-web { background: var(--gold); color: white; }
-  .link-custom { background: #6c757d; color: white; }
-
-  .activity-actions { display: flex; gap: 6px; }
-  .btn-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1em;
-    padding: 4px;
-    border-radius: 6px;
-    transition: background 0.2s;
-  }
-  .btn-icon:hover { background: rgba(0,0,0,0.08); }
-
-  .hotel-tag {
-    display: inline-block;
-    background: linear-gradient(90deg, var(--gold), #e8c97a);
-    color: white;
-    font-size: 0.75em;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-top: 8px;
-  }
-
-  /* Add Activity Form */
-  .add-activity-btn {
-    width: 100%;
-    padding: 10px;
-    background: var(--blush);
-    border: 2px dashed var(--rose);
-    border-radius: 12px;
-    color: var(--deep-rose);
-    font-size: 0.9em;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 8px;
-  }
-  .add-activity-btn:hover { background: var(--rose); color: white; border-style: solid; }
-
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 520px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  }
-  .modal h3 {
-    font-family: 'Playfair Display', serif;
-    color: var(--deep-rose);
-    font-size: 1.4em;
-    margin-bottom: 20px;
-  }
-  .form-group { margin-bottom: 14px; }
-  .form-group label { display: block; font-size: 0.85em; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .form-group input, .form-group textarea, .form-group select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 2px solid #eee;
-    border-radius: 10px;
-    font-size: 0.9em;
-    font-family: 'Lato', sans-serif;
-    color: var(--text);
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  .form-group input:focus, .form-group textarea:focus {
-    border-color: var(--rose);
-  }
-  .links-builder { }
-  .link-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-    align-items: center;
-  }
-  .link-row select { width: 120px; flex-shrink: 0; }
-  .link-row input { flex: 1; }
-  .link-row .btn-icon { flex-shrink: 0; }
-  .btn-add-link {
-    background: none;
-    border: 2px dashed var(--rose);
-    color: var(--deep-rose);
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.8em;
-    font-weight: 700;
-    margin-top: 4px;
-    width: 100%;
-  }
-  .btn-add-link:hover { background: var(--blush); }
-
-  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-primary {
-    flex: 1;
-    padding: 12px;
-    background: linear-gradient(90deg, var(--deep-rose), var(--rose));
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1em;
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.9; }
-  .btn-secondary {
-    flex: 1;
-    padding: 12px;
-    background: #f0f0f0;
-    color: #666;
-    border: none;
-    border-radius: 12px;
-    font-size: 1em;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  /* Add Day */
-  .add-day-btn {
-    width: 100%;
-    padding: 16px;
-    background: white;
-    border: 2px dashed var(--rose);
-    border-radius: 20px;
-    color: var(--deep-rose);
-    font-size: 1em;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: all 0.2s;
-  }
-  .add-day-btn:hover { background: var(--blush); }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 20px;
-    color: var(--rose);
-    font-size: 0.85em;
-  }
-
-  @media (max-width: 600px) {
-    header h1 { font-size: 1.6em; }
-    .summary-card { min-width: 80px; }
-  }
-
-  .hotel-info-card { background: linear-gradient(135deg,#fff9f0,#fff0f5); border:1px solid var(--rose); border-radius:14px; padding:14px 16px; margin:10px 0 6px; }
-  .day-hotel-section { border-top: 2px dashed var(--rose); margin: 8px 16px 0; padding: 12px 0 4px; }
-  .day-hotel-label { font-size: .8em; font-weight: 700; color: var(--deep-rose); margin-bottom: 4px; letter-spacing: 1px; }
-  .hotel-info-card h4 { font-family:'Playfair Display',serif; color:var(--deep-rose); font-size:1em; margin-bottom:10px; }
-  .hotel-info-row { display:flex; align-items:flex-start; gap:8px; margin-bottom:8px; font-size:.85em; }
-  .hotel-info-row .lbl { color:#999; font-size:.78em; font-weight:700; min-width:52px; padding-top:1px; flex-shrink:0; }
-  .hotel-info-row .val { color:var(--text); flex:1; line-height:1.4; }
-  .copy-btn { background:var(--blush); border:none; border-radius:6px; padding:2px 8px; font-size:.72em; color:var(--deep-rose); cursor:pointer; font-weight:700; white-space:nowrap; flex-shrink:0; transition:background .2s; }
-  .copy-btn:hover { background:var(--rose); color:white; }
-  .copy-btn.copied { background:#27ae60; color:white; }
-  .chat-fab { position:fixed; bottom:24px; right:24px; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,var(--deep-rose),var(--gold)); border:none; cursor:pointer; font-size:1.5em; box-shadow:0 4px 16px rgba(192,96,122,.4); z-index:900; display:flex; align-items:center; justify-content:center; transition:transform .2s; }
-  .chat-fab:hover { transform:scale(1.1); }
-  .chat-window { position:fixed; bottom:90px; right:24px; width:340px; max-height:500px; background:white; border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,.2); display:flex; flex-direction:column; z-index:900; overflow:hidden; transform:scale(0); transform-origin:bottom right; transition:transform .25s cubic-bezier(.34,1.56,.64,1); }
-  .chat-window.open { transform:scale(1); }
-  .chat-header { background:linear-gradient(135deg,var(--deep-rose),var(--gold)); padding:14px 16px; color:white; display:flex; align-items:center; gap:10px; flex-shrink:0; }
-  .chat-header .title { font-weight:700; font-size:.95em; flex:1; }
-  .chat-header .subtitle { font-size:.72em; opacity:.85; }
-  .chat-close { background:none; border:none; color:white; font-size:1.2em; cursor:pointer; }
-  .chat-messages { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; min-height:200px; }
-  .chat-bubble { max-width:85%; padding:10px 14px; border-radius:14px; font-size:.85em; line-height:1.5; word-break:break-word; }
-  .chat-bubble.user { background:linear-gradient(135deg,var(--deep-rose),#e8a0b0); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
-  .chat-bubble.ai { background:var(--blush); color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; }
-  .chat-bubble.ai.typing { opacity:.6; font-style:italic; }
-  .chat-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid #eee; flex-shrink:0; }
-  .chat-input { flex:1; border:2px solid #eee; border-radius:12px; padding:8px 12px; font-size:.85em; font-family:'Lato',sans-serif; outline:none; resize:none; max-height:80px; }
-  .chat-input:focus { border-color:var(--rose); }
-  .chat-send { background:linear-gradient(135deg,var(--deep-rose),var(--gold)); border:none; border-radius:12px; padding:8px 14px; color:white; cursor:pointer; font-size:1em; }
-  .chat-send:disabled { opacity:.4; cursor:not-allowed; }
-  .chat-suggestions { display:flex; flex-wrap:wrap; gap:6px; padding:0 14px 10px; }
-  .chat-suggest-btn { background:var(--blush); border:1px solid var(--rose); border-radius:20px; padding:4px 10px; font-size:.75em; color:var(--deep-rose); cursor:pointer; font-family:'Lato',sans-serif; white-space:nowrap; }
-  .chat-suggest-btn:hover { background:var(--rose); color:white; }
-
-
-    /* Drawer Navigation */
-    .drawer-nav {
-      position: fixed;
-      left: 0;
-      top: 60px;
-      bottom: 0;
-      width: 280px;
-      background: white;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      z-index: 1000;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌸 Johnny & 太太的蜜月之旅 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --rose: #ffc4d6;
+      --deep-rose: #c0617a;
+      --gold: #f4d0a4;
+      --blush: #fff0f5;
+      --text: #4a4a4a;
     }
     
-    .drawer-nav.open {
-      transform: translateX(0);
+    body {
+      font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+      background: linear-gradient(135deg, var(--blush) 0%, #fffaf0 100%);
+      color: var(--text);
+      min-height: 100vh;
     }
     
-    .drawer-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      z-index: 999;
-    }
-    
-    .drawer-overlay.visible {
-      display: block;
-    }
-    
-    .drawer-item {
-      padding: 15px 20px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .drawer-item:hover {
-      background: #f5f5f5;
-    }
-    
-    .drawer-item.active {
-      background: #E91E63;
+    .header {
+      background: linear-gradient(135deg, var(--deep-rose), var(--gold));
       color: white;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     
-    .drawer-day {
+    .header h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1em;
+    }
+    
+    /* Tab Navigation */
+    .tabs {
+      display: flex;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: white;
+      font-size: 1.05em;
       font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 4px;
+      color: var(--text);
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
     }
     
-    .drawer-date {
-      font-size: 13px;
-      opacity: 0.8;
+    .tab:hover {
+      background: var(--blush);
     }
     
-    .drawer-summary {
-      font-size: 12px;
-      margin-top: 4px;
-      opacity: 0.7;
+    .tab.active {
+      color: var(--deep-rose);
+      border-bottom-color: var(--deep-rose);
+      background: var(--blush);
     }
     
-    .menu-btn {
-      position: fixed;
-      left: 20px;
-      top: 70px;
-      background: #E91E63;
+    /* Content Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Day Card */
+    .day-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--rose);
+    }
+    
+    .day-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--deep-rose);
+    }
+    
+    .day-date {
+      font-size: 0.95em;
+      color: #666;
+    }
+    
+    .activity {
+      margin: 12px 0;
+      padding: 12px;
+      background: var(--blush);
+      border-radius: 10px;
+    }
+    
+    .activity-time {
+      font-weight: 700;
+      color: var(--deep-rose);
+      margin-bottom: 5px;
+    }
+    
+    .activity-desc {
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+    
+    /* Hotel Card */
+    .hotel-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .hotel-name {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--deep-rose);
+      margin-bottom: 15px;
+    }
+    
+    .hotel-row {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      gap: 10px;
+    }
+    
+    .hotel-label {
+      font-weight: 600;
+      color: #666;
+      min-width: 100px;
+    }
+    
+    .hotel-value {
+      flex: 1;
+      padding: 8px 12px;
+      background: var(--blush);
+      border-radius: 8px;
+      font-size: 0.95em;
+    }
+    
+    .copy-btn {
+      background: var(--deep-rose);
       color: white;
       border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 24px;
+      border-radius: 8px;
+      padding: 8px 16px;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      z-index: 1001;
-      transition: all 0.3s;
+      font-size: 0.9em;
+      font-weight: 600;
+      transition: all 0.2s;
     }
     
-    .menu-btn:hover {
-      background: #C2185B;
-      transform: scale(1.1);
+    .copy-btn:hover {
+      background: #a04f65;
+      transform: scale(1.05);
     }
     
-    .menu-btn.open {
-      left: 300px;
+    .copy-btn.copied {
+      background: #27ae60;
     }
     
-    /* Adjust main content when drawer opens */
-    .container {
-      transition: margin-left 0.3s ease;
+    /* Restaurant Card */
+    .restaurant-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     }
     
-    .container.shifted {
-      margin-left: 280px;
+    .restaurant-name {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: var(--deep-rose);
+      margin-bottom: 8px;
     }
-
+    
+    .restaurant-info {
+      font-size: 0.95em;
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+    
+    .empty-state-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-
-<header>
-  <h1>💍 Johnny & 太太的蜜月之旅</h1>
-  <p>2026年4月7日 – 14日・東京・箱根・富士山</p>
-  <div class="heart-divider">💕</div>
-</header>
-
-<main>
-  <div class="summary-bar" id="summaryBar"></div>
-  <div id="itinerary"></div>
-  <button class="add-day-btn" onclick="openAddDayModal()">＋ 新增日程</button>
-</main>
-
-<footer>Made with 💕 for Johnny & 太太's Honeymoon 2026</footer>
-
-<!-- Activity Modal -->
-<div class="modal-overlay" id="activityModal">
-  <div class="modal">
-    <h3 id="modalTitle">新增行程</h3>
-    <div class="form-group">
-      <label>活動名稱 *</label>
-      <input type="text" id="actTitle" placeholder="e.g. 淺草和服體驗">
+  <div class="header">
+    <h1>🌸 Johnny & 太太的蜜月之旅</h1>
+    <p>2026年4月7日 - 4月14日 | 東京 × 箱根 × 富士山</p>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('itinerary')">📅 行程</button>
+    <button class="tab" onclick="switchTab('accommodation')">🏨 住宿</button>
+    <button class="tab" onclick="switchTab('food')">🍱 美食</button>
+  </div>
+  
+  <div class="container">
+    <!-- Itinerary Tab -->
+    <div id="itinerary" class="tab-content active">
+      <div id="itinerary-list"></div>
     </div>
-    <div class="form-group">
-      <label>描述 / 備注</label>
-      <textarea id="actDesc" rows="2" placeholder="e.g. 早上10點預約，穿和服遊淺草寺"></textarea>
+    
+    <!-- Accommodation Tab -->
+    <div id="accommodation" class="tab-content">
+      <div id="hotel-list"></div>
     </div>
-    <div class="form-group">
-      <label>住宿資訊（選填）</label>
-      <input type="text" id="actHotel" placeholder="e.g. GoStay Hotel（新宿附近）">
-    </div>
-    <div class="form-group">
-      <label>快速連結</label>
-      <div class="links-builder" id="linksBuilder"></div>
-      <button class="btn-add-link" onclick="addLinkRow()">＋ 加入連結</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('activityModal')">取消</button>
-      <button class="btn-primary" onclick="saveActivity()">💾 儲存</button>
+    
+    <!-- Food Tab -->
+    <div id="food" class="tab-content">
+      <div id="restaurant-list"></div>
     </div>
   </div>
-</div>
-
-<!-- Add Day Modal -->
-<div class="modal-overlay" id="addDayModal">
-  <div class="modal">
-    <h3>新增日程</h3>
-    <div class="form-group">
-      <label>日期 *</label>
-      <input type="date" id="newDayDate">
-    </div>
-    <div class="form-group">
-      <label>地點 / 主題 *</label>
-      <input type="text" id="newDayLocation" placeholder="e.g. 東京・澀谷">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('addDayModal')">取消</button>
-      <button class="btn-primary" onclick="saveNewDay()">➕ 新增</button>
-    </div>
-  </div>
-</div>
-
-<!-- Confirm Delete Modal -->
-<div class="modal-overlay" id="confirmModal">
-  <div class="modal">
-    <h3>⚠️ 確認刪除</h3>
-    <p id="confirmMsg" style="margin-bottom:20px;color:#666;">確定要刪除嗎？</p>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('confirmModal')">取消</button>
-      <button class="btn-primary" style="background:linear-gradient(90deg,#c0392b,#e74c3c)" onclick="confirmDeleteAction()">🗑️ 刪除</button>
-    </div>
-  </div>
-</div>
-
-<script>
-const WEEKDAYS = ['日','一','二','三','四','五','六'];
-
-// Initial Data
-let data = {
-  title: "Johnny & 太太的蜜月之旅",
-  days: [
-    {
-      id: 'd1', date: '2026-04-07', location: '🛫 出發去東京',
-      activities: [
-        { id: 'a1', title: '17:30 晚餐', desc: '建議機場附近或提早食飯，預留充足時間', hotel: '', links: []},
-        { id: 'a1b', title: '20:40 抵達香港國際機場', desc: '預留3小時辦理登機、安檢、過關（HK Express需提早）', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=香港國際機場' }
-        ]},
-        { id: 'a1c', title: '✈️ 23:40 香港起飛', desc: '🛫 航班：HK Express UO624 ｜ HKG 23:40 起飛 → HND 04:50+1 抵達（飛行4h10m）', hotel: '', links: [
-          { type: 'web', label: 'HK Express', url: 'https://www.hkexpress.com/' }
-        ]}
-      ]
-    },
-    {
-      id: 'd2', date: '2026-04-08', location: '🛬 抵達東京 + 新宿',
-      activities: [
-        { id: 'a2a', title: '04:50 抵達羽田機場', desc: '🛬 抵達羽田機場（東京時間）｜ 辦入境 + 行李約45分 ｜ 🚌 交通：利木津巴士或京急線去新宿（約60–80分）｜ 💤 預計抵達酒店：07:00–07:30', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
-        ]},
-        { id: 'a2', title: '🛍️ 新宿周邊探索', desc: '😴 起床：11:00（凌晨才抵達，好好休息！）｜ 🚪 出門：12:00 ｜ 🚶 交通：徒步，GoStay酒店在新宿附近，步行即達各景點 ｜ 推薦：新宿御苑、歌舞伎町、百貨試食', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=新宿駅' },
-          { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1304/' }
-        ]}
-      ]
-    },
-    {
-      id: 'd3', date: '2026-04-09', location: '🎢 東京迪士尼海洋',
-      activities: [
-        { id: 'a3', title: '🎢 東京迪士尼海洋（全日）', desc: '😴 起床：07:30 ｜ 🚪 出門：08:15 ｜ 🚃 交通：新宿駅→JR山手線→舞浜駅（約45分，¥570） ｜ ⏰ 建議 09:00 開園前到達排隊入場 ｜ 📍 〒279-0031 千葉県浦安市舞浜1-13 ｜ ☎️ +81-570-008-632 ｜ 🕘 約 9:00–21:00（出發前查官網確認）', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'web', label: '官方網站', url: 'https://www.tokyodisneyresort.jp/tc/tds.html' },
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=Tokyo+DisneySea' }
-        ]}
-      ]
-    },
-    {
-      id: 'd4', date: '2026-04-10', location: '⛩️ 淺草文化體驗',
-      activities: [
-        { id: 'a4', title: '👘 和服體驗 · 浅草愛和服 雷門店', desc: '😴 起床：07:30 ｜ 🚪 出門：08:45 ｜ 🚃 交通：新宿駅→東京メトロ丸ノ内線→銀座→銀座線→浅草駅（約35分，¥280） ｜ ⏰ 09:00 前到達（09:30 開始） ｜ 📅 預約 ID：4376443 ｜ 📍 東京都台東区雷門2-17-9 ReLink KAMINARIMON 4F ｜ 🚉 浅草駅から徒歩3分 ｜ 💴 36,300円（現地支払）｜ ⚠️ 最終返却：16:30 ｜ ✉️ info@aiwafuku.com', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'web', label: '官方網站', url: 'https://aiwafuku.com/shop/asakusa/' },
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=東京都台東区雷門2-17-9+ReLink+KAMINARIMON' }
-        ]},
-        { id: 'a5', title: '⛩️ 淺草寺・仲見世商店街', desc: '😴 和服返款後自由漫步 ｜ 🚶 由愛和服步行5分鐘即達淺草寺 ｜ 📍 東京都台東区浅草2-3-1 ｜ ☎️ 03-3842-0181 ｜ 🕘 本堂：4–9月 6:00–17:00 ｜ 仲見世：9:00–19:00 ｜ 境內24小時免費', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=浅草寺' },
-          { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1311/A131102/' }
-        ]}
-      ]
-    },
-    {
-      id: 'd5', date: '2026-04-11', location: '🗻 富士山一日遊',
-      activities: [
-        { id: 'a6', title: '🗻 富士山一日遊（EASYGO 導覽團）', desc: '😴 起床：06:45 ｜ 🚪 出門：07:30 ｜ 🚶 交通：GoStay酒店步行約10分至東京MODE學園 ｜ ⏰ 集合時間：07:50–08:10（請提前15分鐘到達！） ｜ 📍 集合地：東京MODE學園（新宿） ｜ 🚌 回程：18:30 東京MODE學園解散 ｜ ⚠️ 遲到不退款，務必準時！', hotel: 'GoStay Hotel（新宿附近）', links: [
-          { type: 'web', label: 'Klook 預訂', url: 'https://s.klook.com/c/Z3OoGzYKyk' },
-          { type: 'gmap', label: '集合地 Google Map', url: 'https://maps.google.com/?q=東京モード学園+新宿' }
-        ]}
-      ]
-    },
-    {
-      id: 'd6', date: '2026-04-12', location: '♨️ 箱根溫泉',
-      activities: [
-        { id: 'a7', title: '🚃 乘浪漫特快前往箱根', desc: '😴 起床：08:30 ｜ 🚪 出門：09:00 ｜ 🚃 交通：新宿駅→小田急ロマンスカー→箱根湯本駅（約85分，¥1,200+特急料金） ｜ 建議提前購票！', hotel: '', links: [
-          { type: 'web', label: '小田急訂票', url: 'https://www.odakyu.jp/romancecar/' },
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=箱根湯本駅' }
-        ]},
-        { id: 'a8', title: '箱根水明莊 Check-in・一泊二食', desc: '享受私人風呂，品嚐會席料理', hotel: '💕 箱根水明莊（房內私人風呂）', links: [
-          { type: 'web', label: '官方網站', url: 'https://www.suimeisou.co.jp/' },
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=箱根水明荘' }
-        ]}
-      ]
-    },
-    {
-      id: 'd7', date: '2026-04-13', location: '🛍️ 原宿・澀谷・羽田',
-      activities: [
-        { id: 'a9', title: '🛍️ 原宿・竹下通購物', desc: '😴 起床：09:00（箱根返東京後輕鬆起床）｜ 🚪 出門：10:00 ｜ 🚃 交通：Villa Fontaine→京急線→品川→JR山手線→原宿駅（約30分）｜ 📍 東京都渋谷区神宮前1丁目 ｜ 🕘 大部分店鋪 11:00–20:00', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=竹下通り+原宿' },
-          { type: 'web', label: '竹下通り', url: 'https://www.takeshita-street.com/' }
-        ]},
-        { id: 'a10', title: '🛒 澀谷 MEGA Don Quijote 掃貨', desc: '🚃 交通：原宿駅→JR山手線→渋谷駅（約5分）→A2出口步行2分 ｜ 📍 〒150-0042 東京都渋谷区宇田川町28-6 ｜ ☎️ 0570-076-311 ｜ 🕘 24小時營業', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=MEGA+ドン・キホーテ+渋谷+宇田川町28-6' },
-          { type: 'web', label: '官方網站', url: 'https://www.donki.com/store/shop_detail.php?shop_id=442' }
-        ]},
-        { id: 'a11', title: '🏨 移至羽田機場酒店 Check-in', desc: '🕔 建議 17:00–18:00 出發 ｜ 🚃 交通：渋谷駅→京急線直通or品川→羽田空港第1・2ターミナル（約40分，¥390）｜ 入住 Villa Fontaine Grand Haneda Airport，可使用溫泉設施', hotel: '🛎️ Villa Fontaine Grand Haneda Airport', links: [
-          { type: 'web', label: '官方網站', url: 'https://www.hvf.jp/haneda/' },
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport' }
-        ]}
-      ]
-    },
-    {
-      id: 'd8', date: '2026-04-14', location: '✈️ 啟程返港',
-      activities: [
-        { id: 'a12', title: '✈️ HND→HKG 返港', desc: '😴 起床：04:00 ｜ 🚪 出門：不需出門，Villa Fontaine 直連航廈 ｜ ⏰ 04:30 前往 Check-in 櫃檯（提前2小時）｜ 🛫 航班：HK Express UO625 ｜ HND 06:35 起飛 → HKG 10:15 抵達（飛行4h40m）｜ ⚠️ 記得清空隨身行李液體！', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
-        ]}
-      ]
+  
+  <script>
+    // Data
+    const ITINERARY = [
+      {
+        day: 'Day 1',
+        date: '4月7日（二）',
+        activities: [
+          { time: '17:30', desc: '晚餐（機場附近或提早食）' },
+          { time: '20:40', desc: '抵達香港國際機場（預留3小時辦理登機、安檢）' },
+          { time: '23:40', desc: '香港起飛 → 羽田機場' }
+        ]
+      },
+      {
+        day: 'Day 2',
+        date: '4月8日（三）',
+        activities: [
+          { time: '04:50', desc: '抵達羽田機場（東京時間）' },
+          { time: '05:30-07:00', desc: '辦理入境、提取行李、前往新宿' },
+          { time: '11:00', desc: '起床（酒店休息）' },
+          { time: '12:00', desc: '新宿周邊購物、美食探索' }
+        ]
+      },
+      {
+        day: 'Day 3',
+        date: '4月9日（四）',
+        activities: [
+          { time: '07:30', desc: '起床' },
+          { time: '08:15', desc: '出門' },
+          { time: '09:00', desc: '抵達東京迪士尼海洋（建議開園前到達）' },
+          { time: '全日', desc: '暢玩迪士尼海洋' }
+        ]
+      },
+      {
+        day: 'Day 4',
+        date: '4月10日（五）',
+        activities: [
+          { time: '07:30', desc: '起床' },
+          { time: '08:45', desc: '出門' },
+          { time: '09:30', desc: '淺草和服體驗（愛和服 雷門店）' },
+          { time: '下午', desc: '淺草寺參觀 + 仲見世商店街' },
+          { time: '16:30前', desc: '和服歸還' }
+        ]
+      },
+      {
+        day: 'Day 5',
+        date: '4月11日（六）',
+        activities: [
+          { time: '06:45', desc: '起床' },
+          { time: '07:30', desc: '出門' },
+          { time: '07:50-08:10', desc: '東京MODE學園集合（富士山一日遊 Klook 團）' },
+          { time: '18:30', desc: '返回新宿解散' }
+        ]
+      },
+      {
+        day: 'Day 6',
+        date: '4月12日（日）',
+        activities: [
+          { time: '上午', desc: '搭浪漫特快前往箱根' },
+          { time: '14:00', desc: '箱根水明莊 Check-in' },
+          { time: '全日', desc: '享受溫泉、房內私人風呂、一泊二食' }
+        ]
+      },
+      {
+        day: 'Day 7',
+        date: '4月13日（一）',
+        activities: [
+          { time: '11:00', desc: '箱根水明莊 Check-out' },
+          { time: '下午', desc: '原宿購物（3COINS、@cosme）' },
+          { time: '傍晚', desc: '澀谷 MEGA Donki（24小時營業）' },
+          { time: '晚上', desc: '前往羽田機場酒店' }
+        ]
+      },
+      {
+        day: 'Day 8',
+        date: '4月14日（二）',
+        activities: [
+          { time: '06:35', desc: '羽田機場起飛返港' }
+        ]
+      }
+    ];
+    
+    const HOTELS = [
+      {
+        name: 'GO STAY HOUSE 新宿',
+        address: '〒169-0072 東京都新宿区大久保2丁目7-10',
+        phone: '+81-3-6233-9966',
+        checkin: '15:00 (3pm)',
+        checkout: '11:00 (11am)',
+        nights: '4/8 - 4/11（4晚）'
+      },
+      {
+        name: '箱根水明莊',
+        address: '〒250-0311 神奈川県足柄下郡箱根町湯本茶屋191',
+        phone: '+81-460-85-5561',
+        checkin: '14:00 (2pm)',
+        checkout: '11:00 (11am)',
+        nights: '4/12（1晚）'
+      },
+      {
+        name: 'Villa Fontaine Grand Haneda Airport',
+        address: '〒144-0041 東京都大田区羽田空港2-7-1 羽田エアポートガーデン',
+        phone: '+81-3-6459-8800',
+        checkin: '15:00 (3pm)',
+        checkout: '11:00 (11am)',
+        nights: '4/13（1晚）'
+      }
+    ];
+    
+    const RESTAURANTS = [
+      // User can add restaurants later
+    ];
+    
+    // Functions
+    function switchTab(tabName) {
+      // Update tabs
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Update content
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(tabName).classList.add('active');
     }
-  ]
-};
-
-// State
-let editingDayId = null;
-let editingActId = null;
-let deleteCallback = null;
-
-function save() {
-  localStorage.setItem('honeymoon_itinerary', JSON.stringify(data));
-}
-
-function load() {
-  const saved = localStorage.getItem('honeymoon_itinerary');
-  if (saved) data = JSON.parse(saved);
-}
-
-function uid() {
-  return 'd' + Date.now() + Math.random().toString(36).substr(2,5);
-}
-
-function formatDate(dateStr) {
-  const d = new Date(dateStr + 'T00:00:00');
-  const m = d.getMonth() + 1;
-  const day = d.getDate();
-  const w = WEEKDAYS[d.getDay()];
-  return `${m}/${day}（${w}）`;
-}
-
-function getLinkClass(type) {
-  const map = { gmap: 'link-gmap', tabelog: 'link-tabelog', web: 'link-web', custom: 'link-custom' };
-  return map[type] || 'link-custom';
-}
-
-function getLinkIcon(type) {
-  const map = { gmap: '📍', tabelog: '🍽️', web: '🔗', custom: '🔗' };
-  return map[type] || '🔗';
-}
-
-function render() {
-  // Summary
-  const totalDays = data.days.length;
-  const totalActs = data.days.reduce((s, d) => s + d.activities.length, 0);
-  const hotels = data.days.filter(d => d.activities.some(a => a.hotel)).length;
-  document.getElementById('summaryBar').innerHTML = `
-    <div class="summary-card"><div class="icon">🗓️</div><div class="value">${totalDays}</div><div class="label">天</div></div>
-    <div class="summary-card"><div class="icon">📍</div><div class="value">${totalActs}</div><div class="label">個行程</div></div>
-    <div class="summary-card"><div class="icon">🏨</div><div class="value">${hotels}</div><div class="label">晚住宿</div></div>
-    <div class="summary-card"><div class="icon">💕</div><div class="value">2</div><div class="label">人同行</div></div>
-  `;
-
-  // Itinerary
-  const container = document.getElementById('itinerary');
-  container.innerHTML = data.days.map((day, di) => `
-    <div class="day-card" id="day-${day.id}">
-      <div class="day-header" onclick="toggleDay('${day.id}')">
-        <div class="date-info">
-          <div class="day-number">${di + 1}</div>
-          <div class="day-title">
-            <div class="date">${formatDate(day.date)}</div>
-            <div class="location">${day.location}</div>
+    
+    function renderItinerary() {
+      const container = document.getElementById('itinerary-list');
+      container.innerHTML = '';
+      
+      ITINERARY.forEach(day => {
+        const card = document.createElement('div');
+        card.className = 'day-card';
+        
+        let activitiesHTML = day.activities.map(act => 
+          `<div class="activity">
+            <div class="activity-time">${act.time}</div>
+            <div class="activity-desc">${act.desc}</div>
+          </div>`
+        ).join('');
+        
+        card.innerHTML = `
+          <div class="day-header">
+            <div class="day-title">${day.day}</div>
+            <div class="day-date">${day.date}</div>
           </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button class="btn-icon" onclick="event.stopPropagation();confirmDeleteDay('${day.id}')" title="刪除此日" style="color:rgba(255,255,255,0.8);font-size:1em">🗑️</button>
-          <div class="day-toggle">▾</div>
-        </div>
-      </div>
-      <div class="day-body">
-        ${day.activities.map(act => `
-          <div class="activity" id="act-${act.id}">
-            <div class="activity-header">
-              <div class="activity-content">
-                <div class="activity-title">${act.title}</div>
-                ${act.desc ? `<div class="activity-desc">${act.desc}</div>` : ''}
-                ${act.links && act.links.length ? `
-                  <div class="activity-links">
-                    ${act.links.map(l => `
-                      <a class="link-btn ${getLinkClass(l.type)}" href="${l.url}" target="_blank">${getLinkIcon(l.type)} ${l.label}</a>
-                    `).join('')}
-                  </div>
-                ` : ''}
-              </div>
-              <div class="activity-actions">
-                <button class="btn-icon" onclick="openEditActivity('${day.id}','${act.id}')" title="編輯">✏️</button>
-                <button class="btn-icon" onclick="confirmDeleteActivity('${day.id}','${act.id}')" title="刪除">🗑️</button>
-              </div>
-            </div>
+          ${activitiesHTML}
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+    
+    function renderHotels() {
+      const container = document.getElementById('hotel-list');
+      container.innerHTML = '';
+      
+      HOTELS.forEach(hotel => {
+        const card = document.createElement('div');
+        card.className = 'hotel-card';
+        
+        card.innerHTML = `
+          <div class="hotel-name">${hotel.name}</div>
+          <div class="hotel-row">
+            <div class="hotel-label">地址</div>
+            <div class="hotel-value">${hotel.address}</div>
+            <button class="copy-btn" onclick="copyText(this, '${hotel.address}')">複製</button>
           </div>
-        `).join('')}
-        ${(function(){
-          var hotelTag = '';
-          for (var i = day.activities.length - 1; i >= 0; i--) {
-            if (day.activities[i].hotel) { hotelTag = day.activities[i].hotel; break; }
-          }
-          return hotelTag ? '<div class="day-hotel-section"><div class="day-hotel-label">🏨 今晚住宿</div>' + hotelCard(hotelTag) + '</div>' : '';
-        })()}
-        <button class="add-activity-btn" onclick="openAddActivity('${day.id}')">＋ 新增行程項目</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function toggleDay(dayId) {
-  const el = document.getElementById('day-' + dayId);
-  el.classList.toggle('collapsed');
-}
-
-// Activity Modal
-function openAddActivity(dayId) {
-  editingDayId = dayId;
-  editingActId = null;
-  document.getElementById('modalTitle').textContent = '新增行程項目';
-  document.getElementById('actTitle').value = '';
-  document.getElementById('actDesc').value = '';
-  document.getElementById('actHotel').value = '';
-  document.getElementById('linksBuilder').innerHTML = '';
-  openModal('activityModal');
-}
-
-function openEditActivity(dayId, actId) {
-  editingDayId = dayId;
-  editingActId = actId;
-  const day = data.days.find(d => d.id === dayId);
-  const act = day.activities.find(a => a.id === actId);
-  document.getElementById('modalTitle').textContent = '編輯行程項目';
-  document.getElementById('actTitle').value = act.title;
-  document.getElementById('actDesc').value = act.desc || '';
-  document.getElementById('actHotel').value = act.hotel || '';
-  document.getElementById('linksBuilder').innerHTML = '';
-  (act.links || []).forEach(l => addLinkRow(l.type, l.label, l.url));
-  openModal('activityModal');
-}
-
-function addLinkRow(type='gmap', label='', url='') {
-  const div = document.createElement('div');
-  div.className = 'link-row';
-  div.innerHTML = `
-    <select onchange="this.nextElementSibling.placeholder=getLinkPlaceholder(this.value)">
-      <option value="gmap" ${type==='gmap'?'selected':''}>📍 地圖</option>
-      <option value="tabelog" ${type==='tabelog'?'selected':''}>🍽️ Tabelog</option>
-      <option value="web" ${type==='web'?'selected':''}>🔗 網站</option>
-      <option value="custom" ${type==='custom'?'selected':''}>✏️ 自訂</option>
-    </select>
-    <input type="text" placeholder="連結標題" value="${label}" style="max-width:120px">
-    <input type="text" placeholder="https://..." value="${url}" style="flex:2">
-    <button class="btn-icon" onclick="this.parentElement.remove()">✕</button>
-  `;
-  document.getElementById('linksBuilder').appendChild(div);
-}
-
-function getLinkPlaceholder(type) {
-  return { gmap:'Google Maps URL', tabelog:'Tabelog URL', web:'網站 URL', custom:'URL' }[type] || 'URL';
-}
-
-function saveActivity() {
-  const title = document.getElementById('actTitle').value.trim();
-  if (!title) { alert('請輸入活動名稱'); return; }
-  const desc = document.getElementById('actDesc').value.trim();
-  const hotel = document.getElementById('actHotel').value.trim();
-  const linkRows = document.getElementById('linksBuilder').querySelectorAll('.link-row');
-  const links = [];
-  linkRows.forEach(row => {
-    const type = row.querySelector('select').value;
-    const inputs = row.querySelectorAll('input');
-    const label = inputs[0].value.trim();
-    const url = inputs[1].value.trim();
-    if (url) links.push({ type, label: label || url, url });
-  });
-
-  const day = data.days.find(d => d.id === editingDayId);
-  if (editingActId) {
-    const act = day.activities.find(a => a.id === editingActId);
-    act.title = title; act.desc = desc; act.hotel = hotel; act.links = links;
-  } else {
-    day.activities.push({ id: uid(), title, desc, hotel, links });
-  }
-  save(); render(); closeModal('activityModal');
-}
-
-// Day Modal
-function openAddDayModal() {
-  document.getElementById('newDayDate').value = '';
-  document.getElementById('newDayLocation').value = '';
-  openModal('addDayModal');
-}
-
-function saveNewDay() {
-  const date = document.getElementById('newDayDate').value;
-  const location = document.getElementById('newDayLocation').value.trim();
-  if (!date || !location) { alert('請填寫日期和地點'); return; }
-  data.days.push({ id: uid(), date, location, activities: [] });
-  data.days.sort((a, b) => a.date.localeCompare(b.date));
-  save(); render(); closeModal('addDayModal');
-}
-
-// Delete
-function confirmDeleteDay(dayId) {
-  const day = data.days.find(d => d.id === dayId);
-  document.getElementById('confirmMsg').textContent = `確定要刪除「${formatDate(day.date)} ${day.location}」整日行程？`;
-  deleteCallback = () => { data.days = data.days.filter(d => d.id !== dayId); save(); render(); };
-  openModal('confirmModal');
-}
-
-function confirmDeleteActivity(dayId, actId) {
-  const day = data.days.find(d => d.id === dayId);
-  const act = day.activities.find(a => a.id === actId);
-  document.getElementById('confirmMsg').textContent = `確定要刪除「${act.title}」？`;
-  deleteCallback = () => { day.activities = day.activities.filter(a => a.id !== actId); save(); render(); };
-  openModal('confirmModal');
-}
-
-function confirmDeleteAction() {
-  if (deleteCallback) deleteCallback();
-  deleteCallback = null;
-  closeModal('confirmModal');
-}
-
-// Modal helpers
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
-});
-
-const HOTELS = {
-  "GoStay Hotel": {
-    "name": "GO STAY HOUSE 新宿",
-    "icon": "🏠",
-    "address": "〒169-0072 東京都新宿区大久保2丁目7-10",
-    "address_en": "2-7-10 Okubo, Shinjuku-ku, Tokyo 169-0072",
-    "phone": "+81-3-6233-9966",
-    "checkin": "15:00",
-    "checkout": "11:00",
-    "map": "https://maps.google.com/?q=2-7-10+Okubo+Shinjuku+Tokyo",
-    "web": "https://gostayhouse.com/",
-    "note": "新宿中心地帶，步行15分鐘到新宿站"
-  },
-  "箱根水明莊": {
-    "name": "箱根水明莊",
-    "icon": "♨️",
-    "address": "〒250-0311 神奈川県足柄下郡箱根町湯本茶屋702",
-    "address_en": "702 Yumoto-chaya, Hakone-machi, Kanagawa 250-0311",
-    "phone": "+81-460-85-5381",
-    "checkin": "14:00",
-    "checkout": "11:00",
-    "map": "https://maps.google.com/?q=箱根水明荘",
-    "web": "https://www.jalan.net/yad378894/",
-    "note": "一泊二食・房內私人露天風呂"
-  },
-  "Villa Fontaine Grand Haneda Airport": {
-    "name": "Villa Fontaine Grand 羽田空港",
-    "icon": "✈️",
-    "address": "〒144-0041 東京都大田区羽田空港2丁目7-1 羽田エアポートガーデン",
-    "address_en": "2-7-1 Hanedakuko, Ota City, Tokyo 144-0041",
-    "phone": "+81-3-6459-9770",
-    "email": "hanedaairport-grand@hvf.jp",
-    "checkin": "15:00",
-    "checkout": "11:00",
-    "map": "https://maps.google.com/?q=Villa+Fontaine+Grand+Haneda+Airport",
-    "web": "https://www.hvf.jp/hanedaairport-grand/",
-    "note": "直連羽田機場第3航廈・天然溫泉設施"
-  }
-};
-
-function copyText(btn, text) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(function() {
-      btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-      setTimeout(function(){ btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
-    });
-  } else {
-    var ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-    setTimeout(function(){ btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
-  }
-}
-
-function hotelCard(hotelTag) {
-  if (!hotelTag) return '';
-  var key = null;
-  var keys = Object.keys(HOTELS);
-  for (var i = 0; i < keys.length; i++) {
-    if (hotelTag.indexOf(keys[i]) >= 0) { key = keys[i]; break; }
-  }
-  if (!key) return '<div class="hotel-tag">\uD83C\uDFE8 ' + hotelTag + '</div>';
-  var h = HOTELS[key];
-  var s = '<div class="hotel-info-card">';
-  s += '<h4>' + h.icon + ' ' + h.name + '</h4>';
-  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCCD 中文地址</span>';
-  s += '<span class="val">' + h.address + '</span>';
-  s += '<button class="copy-btn" onclick="copyText(this,\'' + h.address.replace(/'/g, "\\'") + '\')">📋 Copy</button></div>';
-  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDD24 English</span>';
-  s += '<span class="val" style="color:#666">' + h.address_en + '</span>';
-  s += '<button class="copy-btn" onclick="copyText(this,\'' + h.address_en.replace(/'/g, "\\'") + '\')">📋 Copy</button></div>';
-  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCDE 電話</span>';
-  s += '<span class="val"><a href="tel:' + h.phone + '" style="color:var(--deep-rose)">' + h.phone + '</a></span>';
-  s += '<button class="copy-btn" onclick="copyText(this,\'' + h.phone + '\')">📋 Copy</button></div>';
-  if (h.email) {
-    s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCE7 Email</span>';
-    s += '<span class="val">' + h.email + '</span>';
-    s += '<button class="copy-btn" onclick="copyText(this,\'' + h.email + '\')">📋 Copy</button></div>';
-  }
-  s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDD50 Check-in</span>';
-  s += '<span class="val">' + h.checkin + ' \uff0f Check-out ' + h.checkout + '</span></div>';
-  if (h.note) {
-    s += '<div class="hotel-info-row"><span class="lbl">\uD83D\uDCDD 備注</span>';
-    s += '<span class="val">' + h.note + '</span></div>';
-  }
-  s += '<div class="hotel-info-row" style="gap:6px;margin-top:4px">';
-  s += '<a class="copy-btn" href="' + h.map + '" target="_blank" style="text-decoration:none">\uD83D\uDDFA\uFE0F 地圖</a>';
-  s += '<a class="copy-btn" href="' + h.web + '" target="_blank" style="text-decoration:none">\uD83C\uDF10 官網</a>';
-  s += '</div>';
-  s += '</div>';
-  return s;
-}
-
-// ── AI Chatbot ──
-var AZURE_EP = 'https://johnnyaiproject20250729.cognitiveservices.azure.com/openai/deployments/gpt-5-nano/chat/completions?api-version=2025-01-01-preview';
-var chatHistory = [];
-var chatOpen = false;
-
-function getAzureKey() {
-  var k = localStorage.getItem('honeymoon_ai_key');
-  if (!k) {
-    k = prompt('請輸入 AI 助手 API Key（只需一次）：');
-    if (k) localStorage.setItem('honeymoon_ai_key', k.trim());
-  }
-  return k;
-}
-
-function buildSystemPrompt() {
-  var lines = data.days.map(function(d) {
-    return d.date + ' ' + d.location + ': ' + d.activities.map(function(a){
-      return a.title + (a.hotel ? '(住:' + a.hotel + ')' : '');
-    }).join(', ');
-  }).join('\n');
-  var hotels = Object.keys(HOTELS).map(function(k){
-    var h = HOTELS[k];
-    return h.name + ' TEL:' + h.phone + ' CI:' + h.checkin;
-  }).join('\n');
-  return '你係蜜月旅行助手，用廣東話回答。行程：\n' + lines + '\n\n酒店：\n' + hotels;
-}
-
-function toggleChat() {
-  chatOpen = !chatOpen;
-  document.getElementById('chatWindow').classList.toggle('open', chatOpen);
-  if (chatOpen) document.getElementById('chatInput').focus();
-}
-
-function askSuggestion(btn) {
-  document.getElementById('chatInput').value = btn.textContent;
-  document.getElementById('chatSuggestions').style.display = 'none';
-  sendChat();
-}
-
-function appendBubble(role, text, typing) {
-  var msgs = document.getElementById('chatMessages');
-  var div = document.createElement('div');
-  div.className = 'chat-bubble ' + role + (typing ? ' typing' : '');
-  div.textContent = text;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return div;
-}
-
-function sendChat() {
-  var input = document.getElementById('chatInput');
-  var btn = document.getElementById('chatSend');
-  var text = input.value.trim();
-  if (!text) return;
-  var key = getAzureKey();
-  if (!key) return;
-  input.value = ''; input.style.height = 'auto'; btn.disabled = true;
-  appendBubble('user', text, false);
-  chatHistory.push({ role: 'user', content: text });
-  var tb = appendBubble('ai', '…', true);
-  var msgs = [{ role: 'system', content: buildSystemPrompt() }].concat(chatHistory.slice(-8));
-  fetch(AZURE_EP, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'api-key': key },
-    body: JSON.stringify({ messages: msgs, max_tokens: 400, temperature: 0.7 })
-  }).then(function(r){ return r.json(); }).then(function(j){
-    var reply = j.choices[0].message.content;
-    tb.textContent = reply; tb.classList.remove('typing');
-    chatHistory.push({ role: 'assistant', content: reply });
-  }).catch(function(){
-    tb.textContent = '唔好意思，出咗問題 😅 請再試。'; tb.classList.remove('typing');
-    chatHistory.pop();
-  }).finally(function(){ btn.disabled = false; document.getElementById('chatInput').focus(); });
-}
-
-// Init
-load();
-render();
-</script>
-
-<button class="chat-fab" onclick="toggleChat()" title="問旅行助手">💬</button>
-<div class="chat-window" id="chatWindow">
-  <div class="chat-header">
-    <div><div class="title">✨ 蜜月旅行助手</div><div class="subtitle">Ask me about your trip!</div></div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="chat-bubble ai">你好！我係你哋嘅蜜月旅行助手 💕 有咩問題都可以問我！</div>
-  </div>
-  <div class="chat-suggestions" id="chatSuggestions">
-    <button class="chat-suggest-btn" onclick="askSuggestion(this)">第幾天去富士山？</button>
-    <button class="chat-suggest-btn" onclick="askSuggestion(this)">酒店幾點check-in？</button>
-    <button class="chat-suggest-btn" onclick="askSuggestion(this)">箱根溫泉電話？</button>
-    <button class="chat-suggest-btn" onclick="askSuggestion(this)">迪士尼係邊天？</button>
-  </div>
-  <div class="chat-input-row">
-    <textarea class="chat-input" id="chatInput" placeholder="問問行程嘅嘢…" rows="1"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
-    <button class="chat-send" id="chatSend" onclick="sendChat()">➤</button>
-  </div>
-</div>
-
+          <div class="hotel-row">
+            <div class="hotel-label">電話</div>
+            <div class="hotel-value">${hotel.phone}</div>
+            <button class="copy-btn" onclick="copyText(this, '${hotel.phone}')">複製</button>
+          </div>
+          <div class="hotel-row">
+            <div class="hotel-label">Check-in</div>
+            <div class="hotel-value">${hotel.checkin}</div>
+            <button class="copy-btn" onclick="copyText(this, '${hotel.checkin}')">複製</button>
+          </div>
+          <div class="hotel-row">
+            <div class="hotel-label">Check-out</div>
+            <div class="hotel-value">${hotel.checkout}</div>
+            <button class="copy-btn" onclick="copyText(this, '${hotel.checkout}')">複製</button>
+          </div>
+          <div class="hotel-row">
+            <div class="hotel-label">入住日期</div>
+            <div class="hotel-value">${hotel.nights}</div>
+            <button class="copy-btn" onclick="copyText(this, '${hotel.nights}')">複製</button>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+    
+    function renderRestaurants() {
+      const container = document.getElementById('restaurant-list');
+      
+      if (RESTAURANTS.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🍽️</div>
+            <p>暫時未有餐廳資料</p>
+            <p style="font-size:0.9em;margin-top:10px;color:#aaa;">可以之後補充餐廳推薦</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = '';
+      RESTAURANTS.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'restaurant-card';
+        card.innerHTML = `
+          <div class="restaurant-name">${r.name}</div>
+          <div class="restaurant-info">${r.info}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = '✓ 已複製';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        alert('複製失敗，請手動複製');
+      });
+    }
+    
+    // Initialize
+    renderItinerary();
+    renderHotels();
+    renderRestaurants();
+  </script>
 </body>
 </html>
