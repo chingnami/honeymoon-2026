@@ -551,16 +551,23 @@ let data = {
   title: "Johnny & 太太的蜜月之旅",
   days: [
     {
-      id: 'd1', date: '2026-04-07', location: '🛬 抵達東京',
+      id: 'd1', date: '2026-04-07', location: '🛫 出發去東京',
       activities: [
-        { id: 'a1', title: '✈️ HKG→HND 抵達東京', desc: '🛫 航班：HK Express UO624 ｜ HKG 23:35 起飛 → HND 04:55+1 抵達（飛行4h20m）｜ 辦入境 + 行李約45分 ｜ 🚌 交通：利木津巴士或京急線去新宿（約60–80分）｜ 💤 預計抵達酒店：07:00–07:30', hotel: '', links: [
-          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
+        { id: 'a1', title: '17:30 晚餐', desc: '建議機場附近或提早食飯，預留充足時間', hotel: '', links: []},
+        { id: 'a1b', title: '20:40 抵達香港國際機場', desc: '預留3小時辦理登機、安檢、過關（HK Express需提早）', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=香港國際機場' }
+        ]},
+        { id: 'a1c', title: '✈️ 23:40 香港起飛', desc: '🛫 航班：HK Express UO624 ｜ HKG 23:40 起飛 → HND 04:50+1 抵達（飛行4h10m）', hotel: '', links: [
+          { type: 'web', label: 'HK Express', url: 'https://www.hkexpress.com/' }
         ]}
       ]
     },
     {
-      id: 'd2', date: '2026-04-08', location: '🛍️ 新宿・購物美食',
+      id: 'd2', date: '2026-04-08', location: '🛬 抵達東京 + 新宿',
       activities: [
+        { id: 'a2a', title: '04:50 抵達羽田機場', desc: '🛬 抵達羽田機場（東京時間）｜ 辦入境 + 行李約45分 ｜ 🚌 交通：利木津巴士或京急線去新宿（約60–80分）｜ 💤 預計抵達酒店：07:00–07:30', hotel: '', links: [
+          { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=羽田空港' }
+        ]},
         { id: 'a2', title: '🛍️ 新宿周邊探索', desc: '😴 起床：11:00（凌晨才抵達，好好休息！）｜ 🚪 出門：12:00 ｜ 🚶 交通：徒步，GoStay酒店在新宿附近，步行即達各景點 ｜ 推薦：新宿御苑、歌舞伎町、百貨試食', hotel: 'GoStay Hotel（新宿附近）', links: [
           { type: 'gmap', label: 'Google Map', url: 'https://maps.google.com/?q=新宿駅' },
           { type: 'web', label: 'Tabelog', url: 'https://tabelog.com/tokyo/A1304/' }
