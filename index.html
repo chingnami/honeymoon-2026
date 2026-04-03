@@ -377,7 +377,9 @@
         date: '2026-4-8（週三）',
         time: '18:00',
         pax: 2,
-        plan: '4月限定價格 ◆【自助吧】<120分鐘制> 含帝王蟹在內、超過150種料理的燒肉 & 和洋中自助吧＋酒類無限暢飲',
+        address: '東京都新宿区新宿5-17-13 オリエンタルウェーブビル 3F',
+        phone: '03-6233-9178',
+        plan: '4月限定價格 ◆【自助吧】120分鐘制 含帝王蟹在內、超過150種料理的燒肉 & 和洋中自助吧＋酒類無限暢飲',
         reservation: '5LM46Y9XCT',
         note: '已預約'
       }
@@ -483,6 +485,8 @@
         const rows = [
           r.date ? `<div class="hotel-row"><div class="hotel-label">📅 日期</div><div class="hotel-value">${r.date} ${r.time || ''}</div><button class="copy-btn" onclick="copyText(this, '${r.date} ${r.time || ''}')">複製</button></div>` : '',
           r.pax ? `<div class="hotel-row"><div class="hotel-label">👥 人數</div><div class="hotel-value">${r.pax} 名</div></div>` : '',
+          r.address ? `<div class="hotel-row"><div class="hotel-label">📍 地址</div><div class="hotel-value">${r.address}</div><button class="copy-btn" onclick="copyText(this, '${r.address}')">複製</button></div>` : '',
+          r.phone ? `<div class="hotel-row"><div class="hotel-label">📞 電話</div><div class="hotel-value">${r.phone}</div><button class="copy-btn" onclick="copyText(this, '${r.phone}')">複製</button></div>` : '',
           r.plan ? `<div class="hotel-row"><div class="hotel-label">🍽️ 套餐</div><div class="hotel-value">${r.plan}</div></div>` : '',
           r.reservation ? `<div class="hotel-row"><div class="hotel-label">🎫 預約號碼</div><div class="hotel-value" style="font-weight:bold;color:#c0617a;">${r.reservation}</div><button class="copy-btn" onclick="copyText(this, '${r.reservation}')">複製</button></div>` : '',
           r.note ? `<div class="hotel-row"><div class="hotel-label">📝 備註</div><div class="hotel-value">${r.note}</div></div>` : '',
