@@ -372,7 +372,15 @@
     ];
     
     const RESTAURANTS = [
-      // User can add restaurants later
+      {
+        name: '海鮮自助餐廳 銀座八芳 新宿店',
+        date: '2026-4-8（週三）',
+        time: '18:00',
+        pax: 2,
+        plan: '4月限定價格 ◆【自助吧】<120分鐘制> 含帝王蟹在內、超過150種料理的燒肉 & 和洋中自助吧＋酒類無限暢飲',
+        reservation: '5LM46Y9XCT',
+        note: '已預約'
+      }
     ];
     
     // Functions
@@ -472,10 +480,14 @@
       RESTAURANTS.forEach(r => {
         const card = document.createElement('div');
         card.className = 'restaurant-card';
-        card.innerHTML = `
-          <div class="restaurant-name">${r.name}</div>
-          <div class="restaurant-info">${r.info}</div>
-        `;
+        const rows = [
+          r.date ? `<div class="hotel-row"><div class="hotel-label">📅 日期</div><div class="hotel-value">${r.date} ${r.time || ''}</div><button class="copy-btn" onclick="copyText(this, '${r.date} ${r.time || ''}')">複製</button></div>` : '',
+          r.pax ? `<div class="hotel-row"><div class="hotel-label">👥 人數</div><div class="hotel-value">${r.pax} 名</div></div>` : '',
+          r.plan ? `<div class="hotel-row"><div class="hotel-label">🍽️ 套餐</div><div class="hotel-value">${r.plan}</div></div>` : '',
+          r.reservation ? `<div class="hotel-row"><div class="hotel-label">🎫 預約號碼</div><div class="hotel-value" style="font-weight:bold;color:#c0617a;">${r.reservation}</div><button class="copy-btn" onclick="copyText(this, '${r.reservation}')">複製</button></div>` : '',
+          r.note ? `<div class="hotel-row"><div class="hotel-label">📝 備註</div><div class="hotel-value">${r.note}</div></div>` : '',
+        ].filter(Boolean).join('');
+        card.innerHTML = `<div class="restaurant-name">${r.name}</div>${rows}`;
         container.appendChild(card);
       });
     }
